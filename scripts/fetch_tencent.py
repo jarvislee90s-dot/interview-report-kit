@@ -136,7 +136,13 @@ if __name__ == "__main__":
             tpl.pop("pid", None)
             tpl["start_pid"] = "0"
             print("📥 页面就绪，分页抓取逐字稿全文 …")
-            data = page.evaluate(FETCH_JS, {"path": sp.path, "tpl": tpl})
+            try:  # 接口路径/字段变化时 evaluate 内抛错（如 minutes 键缺失），走手册兜底
+                data = page.evaluate(FETCH_JS, {"path": sp.path, "tpl": tpl})
+            except SystemExit:
+                raise
+            except Exception as e:
+                sys.exit(f"页面上下文抓取失败（{type(e).__name__}: {e}）。"
+                         "请按 reference/tencent-api.md 用 agent 浏览器手动兜底")
         finally:
             ctx.close()
 
