@@ -11,6 +11,8 @@ import sys
 import time
 from pathlib import Path
 
+from speaker_check import warn_if_no_speakers
+
 # 在妙记页面上下文内执行：同源带 cookie 调妙记 web 接口，拼出 {s,t,x} 段落数组。
 # 字段路径为 2026-08-27 实测：paragraph-ids→data.list[].pid/start_time、
 # speakers→data.speaker_info_map{}.user_name + paragraph_to_speaker{pid→uid}、
@@ -140,6 +142,8 @@ if __name__ == "__main__":
     if total and len(paras) < total * 0.9:
         sys.exit(f"❌ 抓取不完整：{len(paras)}/{total} 段（不足 90%），接口疑似变化。"
                  "请按 reference/feishu-api.md 用 agent 浏览器手动兜底")
+    warn_if_no_speakers(paras)
+    data["source_label"] = "飞书妙记"
     speakers = list(dict.fromkeys(q.get("s") for q in paras if q.get("s")))
     a.out.parent.mkdir(parents=True, exist_ok=True)
     a.out.write_text(json.dumps(data, ensure_ascii=False, indent=1), encoding="utf-8")

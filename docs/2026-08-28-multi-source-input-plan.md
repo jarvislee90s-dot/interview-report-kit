@@ -61,7 +61,7 @@ git add -A && git commit -m "refactor: fetch_minutes.py 更名 fetch_feishu.py�
 - Modify: `scripts/fetch_feishu.py`（主流程尾部，约 143-147 行区域）
 - Test: `tests/test_speaker_check.py`
 
-- [ ] **Step 1: 写失败测试**
+- [x] **Step 1: 写失败测试**
 
 ```python
 # tests/test_speaker_check.py
@@ -86,12 +86,12 @@ def test_warn_silent_when_named(capsys):
     assert capsys.readouterr().out == ""
 ```
 
-- [ ] **Step 2: 跑测试确认失败**
+- [x] **Step 2: 跑测试确认失败**
 
 Run: `python -m pytest tests/test_speaker_check.py -v`
 Expected: FAIL（`ModuleNotFoundError: No module named 'speaker_check'`）
 
-- [ ] **Step 3: 最小实现**
+- [x] **Step 3: 最小实现**
 
 ```python
 # -*- coding: utf-8 -*-
@@ -116,12 +116,12 @@ def warn_if_no_speakers(paras) -> bool:
     return False
 ```
 
-- [ ] **Step 4: 跑测试确认通过**
+- [x] **Step 4: 跑测试确认通过**
 
 Run: `python -m pytest tests/test_speaker_check.py -v`
 Expected: 3 passed
 
-- [ ] **Step 5: 接线 fetch_feishu.py（检测 + source_label）**
+- [x] **Step 5: 接线 fetch_feishu.py（检测 + source_label）**
 
 在 `scripts/fetch_feishu.py` 顶部 import 区（`from pathlib import Path` 之后）加：
 
@@ -137,7 +137,7 @@ from speaker_check import warn_if_no_speakers
     speakers = list(dict.fromkeys(q.get("s") for q in paras if q.get("s")))
 ```
 
-- [ ] **Step 6: 回归 + Commit**
+- [x] **Step 6: 回归 + Commit**
 
 Run: `python -m pytest -q`
 Expected: 全部 PASS
