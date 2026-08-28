@@ -16,7 +16,7 @@ NOTE_OLD = "> 说明：本文件为原始实录，未经校对。"
 NOTE_NEW = "> 说明：本文件已对照本地音频转录逐段交叉校对（依据见 corrections.json）。"
 
 
-# 同步块：doctor.py / build_transcript.py / asr.py / fetch_minutes.py / apply_corrections.py / render.py 六个脚本的 GBK 容错保持一致
+# 同步块：doctor.py / build_transcript.py / asr.py / fetch_feishu.py / apply_corrections.py / render.py 六个脚本的 GBK 容错保持一致
 if sys.platform == "win32":
     for _s in (sys.stdout, sys.stderr):
         if _s and hasattr(_s, "reconfigure"):

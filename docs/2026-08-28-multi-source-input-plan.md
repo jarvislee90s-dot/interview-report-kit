@@ -26,29 +26,29 @@
 - Rename: `scripts/fetch_minutes.py` → `scripts/fetch_feishu.py`
 - Modify: `scripts/{build_transcript,asr,doctor,apply_corrections,render}.py`（各 1 处同步块注释）、`SKILL.md`、`README.md`、`reference/feishu-api.md`
 
-- [ ] **Step 1: git mv 更名**
+- [x] **Step 1: git mv 更名**
 
 ```bash
 git mv scripts/fetch_minutes.py scripts/fetch_feishu.py
 ```
 
-- [ ] **Step 2: 批量替换引用（同步块注释 + 文档）**
+- [x] **Step 2: 批量替换引用（同步块注释 + 文档）**
 
 ```bash
 sed -i 's/fetch_minutes\.py/fetch_feishu.py/g' scripts/*.py SKILL.md README.md reference/feishu-api.md
 ```
 
-- [ ] **Step 3: 验证无残留（历史文档除外）**
+- [x] **Step 3: 验证无残留（历史文档除外）**
 
 Run: `grep -rn "fetch_minutes" --include="*.py" --include="*.md" . | grep -v ".git/" | grep -v "docs/2026-08-2"`
 Expected: 无输出（`docs/2026-08-27-*.md` 与 `docs/2026-08-28-*.md` 属历史/spec 存档，允许保留）
 
-- [ ] **Step 4: 语法与测试回归**
+- [x] **Step 4: 语法与测试回归**
 
 Run: `python -c "import ast;ast.parse(open('scripts/fetch_feishu.py',encoding='utf-8').read())" && python -m pytest -q`
 Expected: `SYNTAX OK`（无输出即通过）；测试全部 PASS
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```bash
 git add -A && git commit -m "refactor: fetch_minutes.py 更名 fetch_feishu.py，全库引用同步（多源化命名清理第 1 步）"

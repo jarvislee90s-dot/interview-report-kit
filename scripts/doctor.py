@@ -56,7 +56,7 @@ def check_template(path: Path) -> int:
     return 1 if problems else 0
 
 
-# 同步块：doctor.py / build_transcript.py / asr.py / fetch_minutes.py / apply_corrections.py / render.py 六个脚本的 GBK 容错保持一致
+# 同步块：doctor.py / build_transcript.py / asr.py / fetch_feishu.py / apply_corrections.py / render.py 六个脚本的 GBK 容错保持一致
 if sys.platform == "win32":
     for _s in (sys.stdout, sys.stderr):
         if _s and hasattr(_s, "reconfigure"):

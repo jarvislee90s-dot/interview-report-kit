@@ -2,7 +2,7 @@
 """build_transcript.py —— minutes_raw.json → 会议实录.md（逐段：**发言人** 时间戳 + 段落）。
 用法：python scripts/build_transcript.py minutes_raw.json [--out 会议实录.md] [--url 来源链接]
 json 结构：{"total_expected":N,"url":妙记链接?,"meeting_time":会议时间?,
-"paras":[{"s":发言人,"t":毫秒,"x":文本},...]}（fetch_minutes.py 产出；url/meeting_time 可选，
+"paras":[{"s":发言人,"t":毫秒,"x":文本},...]}（fetch_feishu.py 产出；url/meeting_time 可选，
 --url 覆盖 json 内 url；total_expected 与段数不符时打印截断警告）
 """
 import argparse
@@ -54,7 +54,7 @@ def build(md_path: Path, json_path: Path, url_override: str = None) -> None:
     print(f"written: {md_path}（{len(paras)} 段 / {len(speakers)} 人）")
 
 
-# 同步块：doctor.py / build_transcript.py / asr.py / fetch_minutes.py / apply_corrections.py / render.py 六个脚本的 GBK 容错保持一致
+# 同步块：doctor.py / build_transcript.py / asr.py / fetch_feishu.py / apply_corrections.py / render.py 六个脚本的 GBK 容错保持一致
 if sys.platform == "win32":
     for _s in (sys.stdout, sys.stderr):
         if _s and hasattr(_s, "reconfigure"):

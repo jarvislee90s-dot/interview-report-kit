@@ -41,7 +41,7 @@ python <skill>/scripts/doctor.py
 ### ① 抓取妙记 → minutes_raw.json
 
 ```bash
-python <skill>/scripts/fetch_minutes.py "<妙记URL>"
+python <skill>/scripts/fetch_feishu.py "<妙记URL>"
 ```
 
 - URL 形如 `https://xxx.feishu.cn/minutes/<token>`；可选 `--auth-dir`（默认 `<skill>/.auth`）、`--out`（默认 `minutes_raw.json`）。
@@ -152,4 +152,4 @@ python -m http.server 8000
 
 ## 6. 手动兜底
 
-`fetch_minutes.py` 失败（接口字段变化、登录异常、段数 <90%）时，按 **`reference/feishu-api.md`** 用 agent 浏览器（MCP）在页面上下文手动调妙记接口补齐 `minutes_raw.json`，然后从 ② 继续。
+`fetch_feishu.py` 失败（接口字段变化、登录异常、段数 <90%）时，按 **`reference/feishu-api.md`** 用 agent 浏览器（MCP）在页面上下文手动调妙记接口补齐 `minutes_raw.json`，然后从 ② 继续。

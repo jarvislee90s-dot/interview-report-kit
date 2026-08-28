@@ -52,7 +52,7 @@
 ## 🔀 流水线全景
 
 ```
-妙记 URL ──① fetch_minutes.py──▶ minutes_raw.json ──② build_transcript.py──▶ 会议实录.md
+妙记 URL ──① fetch_feishu.py──▶ minutes_raw.json ──② build_transcript.py──▶ 会议实录.md
                                                                 │
 本地音频 ──③ asr.py──────────▶ transcript.txt ──④ 校正──▶ 会议实录（修正）.md ──⑤ 润色 ──▶ ✨
                                                                 │
@@ -75,7 +75,7 @@ pip install -r requirements.txt
 playwright install chromium          # 爬取用；另需系统安装 ffmpeg 与 Node + mmdc
 python scripts/doctor.py             # 环境自检，全 ✅ 再继续
 
-python scripts/fetch_minutes.py <妙记URL>          # 首次弹浏览器扫码，登录态持久化
+python scripts/fetch_feishu.py <妙记URL>          # 首次弹浏览器扫码，登录态持久化
 python scripts/build_transcript.py minutes_raw.json
 python scripts/asr.py <本地音频>                    # 可选；无音频跳过校正环节
 # ④⑤⑥⑦ 由 LLM 按 reference/pipeline.md 执行（也可全程手工编辑 markdown）
@@ -92,7 +92,7 @@ markdown 改了重跑一遍即可。`--list-templates` 查看全部模板。
 
 ```
 ├── SKILL.md                  # Agent 工作流入口（9 环节），也可作为人工操作手册
-├── scripts/                  # 6 个独立 CLI：doctor / fetch_minutes / build_transcript / asr / apply_corrections / render
+├── scripts/                  # 6 个独立 CLI：doctor / fetch_feishu / build_transcript / asr / apply_corrections / render
 ├── reference/
 │   ├── templates/            # 5 套模板 set（minutes + summary 成对）
 │   ├── pipeline.md           # LLM 环节操作细则（校正/润色/总结/导图原则）

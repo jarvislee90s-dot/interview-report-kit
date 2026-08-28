@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
-"""fetch_minutes.py —— 飞书妙记 URL → minutes_raw.json（带发言人、毫秒时间戳、段落文本）。
-用法：python scripts/fetch_minutes.py <妙记URL> [--auth-dir .auth] [--out minutes_raw.json]
+"""fetch_feishu.py —— 飞书妙记 URL → minutes_raw.json（带发言人、毫秒时间戳、段落文本）。
+用法：python scripts/fetch_feishu.py <妙记URL> [--auth-dir .auth] [--out minutes_raw.json]
 首次运行弹出浏览器扫码登录；登录态持久保存于 --auth-dir，之后免登。
 失败时按 reference/feishu-api.md 用 agent 浏览器手动兜底。
 """
@@ -82,7 +82,7 @@ def wait_off_accounts(page, prompt: bool = False) -> None:
         page.wait_for_timeout(2000)
 
 
-# 同步块：doctor.py / build_transcript.py / asr.py / fetch_minutes.py / apply_corrections.py / render.py 六个脚本的 GBK 容错保持一致
+# 同步块：doctor.py / build_transcript.py / asr.py / fetch_feishu.py / apply_corrections.py / render.py 六个脚本的 GBK 容错保持一致
 if sys.platform == "win32":
     for _s in (sys.stdout, sys.stderr):
         if _s and hasattr(_s, "reconfigure"):
