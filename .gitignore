@@ -1,5 +1,5 @@
 # === 敏感：绝不提交 ===
-.auth/                  # 飞书登录态（真实 cookies），仅存本机
+.auth/
 *.cookies
 *.har
 
@@ -13,8 +13,8 @@ env/
 *.egg-info/
 
 # === 本地运行产物 ===
-runs/                   # render/fetch/asr 的本地输出
-*.wav                   # asr 提取的中间音频（体积大）
+runs/
+*.wav
 *.m4a
 *.part
 

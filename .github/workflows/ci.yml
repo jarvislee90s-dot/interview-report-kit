@@ -1,0 +1,33 @@
+name: CI
+
+on:
+  push:
+    branches: [master, main]
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ["3.10", "3.12"]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+      # 测试仅依赖标准库（render/doctor 均零第三方依赖），只需安装 pytest
+      - run: pip install pytest
+      - run: python -m pytest tests/ -q
+      - name: 模板健康检查
+        run: |
+          python scripts/doctor.py --check-template reference/templates/research-report/minutes.html
+          python scripts/doctor.py --check-template reference/templates/research-report/summary.html
+          python scripts/doctor.py --check-template reference/templates/clean-doc/minutes.html
+          python scripts/doctor.py --check-template reference/templates/clean-doc/summary.html
+          python scripts/doctor.py --check-template reference/templates/modern-card/minutes.html
+          python scripts/doctor.py --check-template reference/templates/modern-card/summary.html
+          python scripts/doctor.py --check-template reference/templates/chat-bubble/minutes.html
+          python scripts/doctor.py --check-template reference/templates/chat-bubble/summary.html
+          python scripts/doctor.py --check-template reference/templates/timeline/minutes.html
+          python scripts/doctor.py --check-template reference/templates/timeline/summary.html
