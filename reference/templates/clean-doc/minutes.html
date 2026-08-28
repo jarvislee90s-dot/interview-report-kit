@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>{{TITLE}}</title>
+<!-- clean-doc/minutes · 简洁纯文档版（零 JS，打印最优） -->
+<!-- 发言人配色预设：在下一行写 COLORS 注释，格式为 名字=#十六进制，多人逗号分隔；名字须与实录发言人完全一致，未列出者按调色板自动配色；该注释渲染时剔除 -->
+<style>
+:root{--ink:#26282e;--muted:#6b7280;--navy:#374151;--gold:#6B7280;}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:#fff;color:var(--ink);font:15.5px/1.95 -apple-system,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif}
+.page{max-width:860px;margin:0 auto;padding:44px 26px 60px}
+.kicker{font-size:11px;letter-spacing:4px;color:var(--gold);font-weight:700;margin-bottom:10px}
+h1{font-size:25px;color:var(--navy);padding-bottom:14px;border-bottom:2px solid var(--navy)}
+.metas{color:var(--muted);font-size:13px;margin:14px 0 8px}
+.metas span{margin-right:16px}
+h2.ch{font-size:18px;color:var(--navy);margin:30px 0 6px}
+.ch-time{font-size:12px;color:var(--muted)}
+.entry{margin:14px 0;padding:10px 0 10px 14px;border-left:3px solid #d1d5db}
+.entry .head{font-size:13.5px;color:var(--navy);font-weight:700}
+.entry .head .ts{font-weight:400;color:var(--muted);font-size:12px;margin-left:8px}
+.entry p{margin:6px 0;overflow-wrap:anywhere;word-break:break-word}
+strong{color:var(--navy)}
+footer{max-width:860px;margin:0 auto;padding:0 26px 40px;color:#9ca3af;font-size:12px;text-align:center}
+@media print{.entry{break-inside:avoid}}
+</style>
+</head>
+<body>
+<div class="page">
+  <div class="kicker">{{KICKER}}</div>
+  <h1>{{TITLE}}</h1>
+  <div class="metas"><span>{{DATE}}</span><span>时长 {{DURATION}}</span><span>{{SPEAKERS_LINE}}</span></div>
+<!--#CHAPTER-->
+  <h2 class="ch">{{CHAPTER_TITLE}} <span class="ch-time">{{CHAPTER_TIME}}</span></h2>
+<!--#ENTRY-->
+  <div class="entry" style="border-left-color:{{COLOR}}">
+    <div class="head">{{SPEAKER}}<span class="ts">{{TS}}</span></div>
+    {{PARAS_HTML}}
+  </div>
+<!--/ENTRY-->
+<!--/CHAPTER-->
+</div>
+<footer>记录来源：<a href="{{SOURCE_URL}}" style="color:#9ca3af">飞书妙记</a> · <!-- 复制模板时改：日期 -->2026-XX-XX</footer>
+</body>
+</html>

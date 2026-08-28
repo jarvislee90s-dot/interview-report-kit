@@ -1,0 +1,29 @@
+# === 敏感：绝不提交 ===
+.auth/                  # 飞书登录态（真实 cookies），仅存本机
+*.cookies
+*.har
+
+# === Python ===
+__pycache__/
+*.pyc
+.pytest_cache/
+.venv/
+venv/
+env/
+*.egg-info/
+
+# === 本地运行产物 ===
+runs/                   # render/fetch/asr 的本地输出
+*.wav                   # asr 提取的中间音频（体积大）
+*.m4a
+*.part
+
+# === 工具验证残留 ===
+.playwright-mcp/
+
+# === IDE / 系统 ===
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
+desktop.ini

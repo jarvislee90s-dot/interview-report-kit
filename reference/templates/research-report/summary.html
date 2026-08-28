@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<!-- research-report/summary · 抽取自 OceanDemo 项目终版（2026-03-10）· 占位符契约见 doctor --check-template -->
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>{{TITLE}}</title>
+<style>
+:root{--bg:#f6f4ee;--ink:#26282e;--line:#e3ded2;--navy:#1B2A4A;--gold:#a8842c;}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--ink);font:15.5px/1.95 -apple-system,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif}
+.page{max-width:880px;margin:0 auto;padding:46px 26px 60px}
+.mast-kicker{font-size:11.5px;letter-spacing:4px;color:var(--gold);font-weight:700;margin-bottom:10px}
+h1.doc-title{font-family:Georgia,'STZhongsong','SimSun',serif;font-size:27px;color:var(--navy);letter-spacing:2px;padding-bottom:16px;border-bottom:1px solid var(--line)}
+/* md 的 # 一级标题由 TITLE 占位符呈现（引擎取同一行），此处隐藏正文 h1 防重复 */
+.page h1:not(.doc-title){display:none}
+.meta-panel{background:#F1EEE4;border:1px solid var(--line);border-left:3px solid var(--gold);border-radius:3px;padding:14px 18px;margin:22px 0 26px;color:#4a4a42;font-size:14px;line-height:2.1;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+h2{font-family:Georgia,'STZhongsong','SimSun',serif;font-size:19px;color:var(--navy);margin:34px 0 10px;padding:0 0 6px 12px;border-left:4px solid var(--gold);border-bottom:1px solid var(--line)}
+p{margin:10px 0;overflow-wrap:anywhere;word-break:break-word}
+blockquote{background:#faf8f2;border-left:3px solid var(--gold);border-radius:3px;padding:12px 16px;margin:12px 0;color:#57534e;font-size:14.5px}
+ul{margin:8px 0 8px 24px}
+li{margin:5px 0}
+strong{color:var(--navy)}
+hr{border:0;border-top:1px dashed var(--line);margin:24px 0}
+.mindmap-img{width:100%;background:#fff;border:1px solid var(--line);padding:16px;margin-top:8px}
+footer{max-width:880px;margin:0 auto;padding:0 26px 46px;color:#9a9588;font-size:12px;text-align:center}
+footer a{color:#9a9588}
+@media print{body{background:#fff}.page{padding-top:20px}.meta-panel,.mindmap-img{break-inside:avoid}}
+</style>
+</head>
+<body>
+<div class="page">
+  <div class="mast-kicker">{{KICKER}}</div>
+  <h1 class="doc-title">{{TITLE}}</h1>
+  <div class="meta-panel">{{DATE}}（时长 {{DURATION}}）· {{SPEAKERS_LINE}}</div>
+{{BODY}}
+<!--IF:MINDMAP-->  <h2>附：思维导图</h2>
+  <img class="mindmap-img" alt="思维导图" src="data:image/png;base64,{{MINDMAP_B64}}"><!--/IF:MINDMAP-->
+</div>
+<footer>本稿件依据会议录音转录实录整理生成 · 来源：<a href="{{SOURCE_URL}}">飞书妙记</a> · <!-- 复制模板时改：日期 -->2026-XX-XX</footer>
+</body>
+</html>

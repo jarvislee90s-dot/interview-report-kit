@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>{{TITLE}}</title>
+<!-- timeline/minutes · 垂直时间轴版 -->
+<!-- 发言人配色预设：在下一行写 COLORS 注释，格式为 名字=#十六进制，多人逗号分隔；名字须与实录发言人完全一致，未列出者按调色板自动配色；该注释渲染时剔除 -->
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{--bg:#fafaf7;--ink:#2d2a24;--muted:#8a8471;--line:#e6e1d3;--navy:#2d2a24;--accent:#8a8471;}
+body{background:var(--bg);font:15px/1.9 -apple-system,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;color:var(--ink)}
+.wrap{max-width:860px;margin:0 auto;padding:40px 22px 70px}
+.kicker{font-size:11px;letter-spacing:4px;color:var(--muted);font-weight:700;margin-bottom:8px}
+h1{font-family:Georgia,'STZhongsong','SimSun',serif;font-size:24px;color:var(--navy);padding-bottom:14px;border-bottom:1px solid #ddd8cc}
+.meta{color:var(--muted);font-size:13px;margin:12px 0 6px}
+.tl{margin-top:26px;border-left:2px solid #d8d2c0;padding-left:26px}
+.ch{font-family:Georgia,'STZhongsong','SimSun',serif;font-size:17px;color:var(--navy);margin:26px 0 10px}
+.ch small{font-family:inherit;color:var(--muted);font-size:12px;margin-left:10px}
+.node{position:relative;margin:16px 0}
+.node::before{content:"";position:absolute;left:-33px;top:8px;width:11px;height:11px;border-radius:50%;background:#fff;border:3px solid var(--c,var(--accent))}
+.node .ts{font-size:12px;color:var(--muted);font-variant-numeric:tabular-nums}
+.node .who{font-weight:700;font-size:14px;color:var(--c,var(--accent))}
+.node .card{background:#fff;border:1px solid var(--line);border-radius:6px;padding:12px 16px;margin-top:6px;overflow-wrap:anywhere;word-break:break-word}
+p{margin:6px 0}
+strong{color:var(--navy)}
+footer{max-width:860px;margin:0 auto;padding:0 22px 40px;color:#a49e8c;font-size:12px;text-align:center}
+@media print{body{background:#fff}.node{break-inside:avoid}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="kicker">{{KICKER}}</div>
+  <h1>{{TITLE}}</h1>
+  <div class="meta">{{DATE}} · {{DURATION}} · {{SPEAKERS_LINE}}</div>
+  <div class="tl">
+<!--#CHAPTER-->
+    <div class="ch">{{CHAPTER_TITLE}}<small>{{CHAPTER_TIME}}</small></div>
+<!--#ENTRY-->
+    <div class="node" style="--c:{{COLOR}}">
+      <span class="ts">{{TS}}</span> <span class="who">{{SPEAKER}}</span>
+      <div class="card">{{PARAS_HTML}}</div>
+    </div>
+<!--/ENTRY-->
+<!--/CHAPTER-->
+  </div>
+</div>
+<footer>记录来源：<a href="{{SOURCE_URL}}" style="color:#a49e8c">飞书妙记</a> · <!-- 复制模板时改：日期 -->2026-XX-XX</footer>
+</body>
+</html>

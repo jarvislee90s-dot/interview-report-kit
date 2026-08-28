@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>{{TITLE}}</title>
+<!-- chat-bubble/minutes · IM 对话气泡版 -->
+<!-- 发言人配色预设：在下一行写 COLORS 注释，格式为 名字=#十六进制，多人逗号分隔；名字须与实录发言人完全一致，未列出者按调色板自动配色；该注释渲染时剔除 -->
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{--bg:#eef1f5;--card:#fff;--ink:#1f2937;--muted:#6b7280;--navy:#111827;}
+body{background:var(--bg);font:15px/1.85 -apple-system,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;color:var(--ink)}
+.wrap{max-width:860px;margin:0 auto;padding:26px 18px 70px}
+.headcard{background:var(--card);border-radius:16px;padding:22px 26px;margin-bottom:18px;box-shadow:0 2px 10px rgba(0,0,0,.05)}
+.kicker{font-size:11px;letter-spacing:3px;color:var(--muted);margin-bottom:6px}
+h1{font-size:22px;color:var(--navy)}
+.meta{color:var(--muted);font-size:13px;margin-top:8px}
+h2.ch{font-size:15px;color:var(--muted);text-align:center;margin:22px 0 14px}
+h2.ch::before,h2.ch::after{content:" — "}
+.row{display:flex;gap:10px;margin:12px 0;align-items:flex-start}
+.row.right{flex-direction:row-reverse}
+.avatar{width:38px;height:38px;border-radius:12px;color:#fff;display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:600;flex-shrink:0}
+.bubble{max-width:76%;background:var(--card);border-radius:4px 14px 14px 14px;padding:10px 14px;box-shadow:0 1px 4px rgba(0,0,0,.06);overflow-wrap:anywhere;word-break:break-word}
+.row.right .bubble{border-radius:14px 4px 14px 14px}
+.who{font-size:12px;color:var(--muted);margin-bottom:3px}
+.who .ts{margin-left:8px;font-size:11px}
+p{margin:5px 0}
+strong{color:var(--navy)}
+footer{max-width:860px;margin:0 auto;padding:0 18px 40px;color:#9ca3af;font-size:12px;text-align:center}
+@media print{.bubble{box-shadow:none}.row{break-inside:avoid}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="headcard">
+    <div class="kicker">{{KICKER}}</div>
+    <h1>{{TITLE}}</h1>
+    <div class="meta">{{DATE}} · {{DURATION}} · {{SPEAKERS_LINE}}</div>
+  </div>
+<!--#CHAPTER-->
+  <h2 class="ch">{{CHAPTER_TITLE}}（{{CHAPTER_TIME}}）</h2>
+<!--#ENTRY-->
+  <div class="row">
+    <div class="avatar" style="background:{{COLOR}}">{{AVATAR}}</div>
+    <div class="bubble" style="border-top:2px solid {{COLOR}}">
+      <div class="who">{{SPEAKER}}<span class="ts">{{TS}}</span></div>
+      {{PARAS_HTML}}
+    </div>
+  </div>
+<!--/ENTRY-->
+<!--/CHAPTER-->
+</div>
+<footer>记录来源：<a href="{{SOURCE_URL}}" style="color:#9ca3af">飞书妙记</a> · <!-- 复制模板时改：日期 -->2026-XX-XX</footer>
+<script>// 奇偶行交替左右分布（装饰性选择，不按发言人区分）
+document.querySelectorAll('.row').forEach((r,i)=>{if(i%2)r.classList.add('right')})</script>
+</body>
+</html>

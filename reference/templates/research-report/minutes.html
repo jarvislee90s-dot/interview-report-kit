@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<!-- research-report/minutes · 抽取自 OceanDemo 项目终版（2026-03-10）· 占位符契约见 doctor --check-template -->
+<html lang="zh-CN">
+<head>
+<!--COLORS: demo 张三=#2563EB, 李四=#7C3AED, demo王五=#0D9488, 赵六=#D97706, 孙七=#DC2626, 周八=#DB2777, 吴九=#059669, 郑十=#EA580C｜说明：名字须与实录发言人完全一致（含品牌前缀/空格（如 demo））；未列出者按引擎调色板顺序自动配色；本行渲染时自动剔除-->
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>{{TITLE}}</title>
+<style>
+:root{--bg:#f6f4ee;--paper:#fffdf9;--ink:#26282e;--muted:#7a7668;--line:#e3ded2;--navy:#1B2A4A;--gold:#a8842c;}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--ink);font:15.5px/1.95 -apple-system,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif}
+#progress{position:fixed;top:0;left:0;height:3px;width:0;background:linear-gradient(90deg,#1B2A4A,#a8842c);z-index:99}
+nav{position:sticky;top:0;z-index:50;background:rgba(255,253,249,.94);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+.nav-in{max-width:1180px;margin:0 auto;display:flex;align-items:center;gap:6px;padding:10px 20px;flex-wrap:wrap}
+.brand{font-family:Georgia,'STZhongsong','SimSun',serif;font-weight:700;font-size:16px;color:var(--navy);margin-right:10px;letter-spacing:1px}
+.nav-note{padding:7px 14px;font-size:14px;color:var(--navy);font-weight:600;border-bottom:2px solid var(--gold)}
+.nav-spacer{flex:1}
+.search-wrap{display:flex;align-items:center;gap:8px}
+#q{border:1px solid var(--line);border-radius:3px;padding:7px 12px;font-size:13.5px;width:180px;outline:none;background:#fff}
+#q:focus{border-color:var(--gold)}
+#searchCount{font-size:12px;color:var(--muted);white-space:nowrap}
+main{max-width:1180px;margin:0 auto;padding:26px 20px 90px}
+/* ---- 调研报告版式 ---- */
+.masthead{background:var(--paper);border:1px solid var(--line);border-top:4px solid var(--navy);padding:30px 34px 22px}
+.mast-kicker{font-size:11.5px;letter-spacing:4px;color:var(--gold);font-weight:700;margin-bottom:10px}
+.masthead h1{font-family:Georgia,'STZhongsong','SimSun',serif;font-size:30px;color:var(--navy);letter-spacing:2px;line-height:1.4}
+.mast-sub{color:var(--muted);font-size:13.5px;margin-top:6px;padding-bottom:16px;border-bottom:1px solid var(--line)}
+.meta-table{width:100%;border-collapse:collapse;margin-top:4px;font-size:13.5px}
+.meta-table th{width:96px;text-align:left;color:var(--muted);font-weight:600;padding:9px 12px 9px 0;vertical-align:top;border-bottom:1px dashed var(--line);white-space:nowrap}
+.meta-table td{padding:9px 0;border-bottom:1px dashed var(--line)}
+.meta-table tr:last-child th,.meta-table tr:last-child td{border-bottom:0}
+.legend{display:flex;gap:8px;flex-wrap:wrap;margin:16px 0 4px;align-items:center}
+.legend-cap{font-size:12px;color:var(--muted);letter-spacing:2px;margin-right:4px}
+/* 章节与卡片 */
+.chapter{margin-top:34px}
+.chapter-h{display:flex;align-items:baseline;justify-content:space-between;gap:12px;border-bottom:2px solid var(--navy);padding-bottom:8px;margin-bottom:14px}
+.chapter-h h2{font-family:Georgia,'STZhongsong','SimSun',serif;font-size:20px;color:var(--navy);letter-spacing:1px}
+.chapter-h h2::before{content:"§ ";color:var(--gold);font-size:16px}
+.ch-time{font-size:12px;color:var(--muted);font-variant-numeric:tabular-nums;white-space:nowrap}
+.entry{display:flex;gap:13px;background:var(--paper);border:1px solid var(--line);border-left:3px solid #d8d2c4;border-radius:4px;padding:13px 18px;margin:10px 0;transition:border-color .15s}
+.entry:hover{border-left-color:var(--gold)}
+.entry.nomatch{opacity:.22}
+.avatar{width:36px;height:36px;border-radius:50%;color:#fff;display:flex;align-items:center;justify-content:center;font-size:15.5px;font-weight:600;flex-shrink:0;margin-top:2px}
+.card-main{flex:1;min-width:0}
+.card-head{display:flex;align-items:baseline;gap:10px;margin-bottom:3px}
+.sname{font-weight:700;font-size:14px}
+.ts{font-size:12px;color:var(--muted);font-variant-numeric:tabular-nums}
+.idx{font-size:11px;color:#c6c1b2;margin-left:auto}
+.txt{font-size:15.5px;line-height:1.95;overflow-wrap:anywhere;word-break:break-word}
+.txt p{margin:7px 0}
+.txt strong{color:var(--navy)}
+mark{background:#F3E3B5;padding:0 2px}
+#backtop{position:fixed;right:26px;bottom:30px;width:42px;height:42px;border-radius:3px;border:1px solid var(--navy);background:var(--navy);color:#fff;font-size:18px;cursor:pointer;display:none;box-shadow:0 4px 14px rgba(27,42,74,.35);z-index:60}
+footer{max-width:1180px;margin:0 auto;padding:0 20px 44px;color:#9a9588;font-size:12px;text-align:center}
+footer a{color:#9a9588}
+@media print{
+ nav,#backtop,#progress,.search-wrap,.legend{display:none!important}
+ body{background:#fff}
+ .entry,.masthead{break-inside:avoid}
+ .masthead{border-top:4px solid var(--navy)}
+ .chapter-h h2{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+}
+</style>
+</head>
+<body>
+<div id="progress"></div>
+<nav><div class="nav-in">
+  <!-- 复制模板时改：品牌名 --><span class="brand">OceanDemo 路演访谈</span>
+  <span class="nav-note">会议纪要</span>
+  <span class="nav-spacer"></span>
+  <span class="search-wrap"><input id="q" placeholder="搜索实录关键词…"><span id="searchCount"></span></span>
+</div></nav>
+<main>
+<section>
+    <div class="content">
+      <header class="masthead">
+        <div class="mast-kicker">{{KICKER}}</div>
+        <h1>{{TITLE}}</h1>
+        <div class="mast-sub">{{SPEAKERS_LINE}}</div>
+        <table class="meta-table">
+          <tr><th>会议时间</th><td>{{DATE}}（时长 {{DURATION}}）</td></tr>
+          <tr><th>发言人</th><td>{{SPEAKERS_LINE}}</td></tr>
+          <tr><th>记录来源</th><td><a href="{{SOURCE_URL}}">飞书妙记实录</a></td></tr>
+        </table>
+        <div class="legend"><span class="legend-cap">发言人以颜色区分，可按姓名搜索定位</span></div>
+      </header>
+<!--#CHAPTER--><section class="chapter">
+<div class="chapter-h"><h2>{{CHAPTER_TITLE}}</h2><span class="ch-time">{{CHAPTER_TIME}}</span></div>
+<!--#ENTRY--><article class="entry" data-speaker="{{SPEAKER}}" id="e{{IDX}}">
+<div class="avatar" style="background:{{COLOR}}">{{AVATAR}}</div>
+<div class="card-main">
+<div class="card-head"><span class="sname" style="color:{{COLOR}}">{{SPEAKER}}</span>
+<span class="ts">{{TS}}</span><span class="idx">#{{IDX}}</span></div>
+<div class="txt">{{PARAS_HTML}}</div></div></article><!--/ENTRY-->
+</section><!--/CHAPTER-->
+    </div>
+</section>
+</main>
+<footer>本稿件依据会议录音转录实录整理生成 · 来源：<a href="{{SOURCE_URL}}">飞书妙记</a> · <!-- 复制模板时改：日期 -->2026-XX-XX</footer>
+<button id="backtop" title="回到顶部">↑</button>
+<script>
+const cards=[...document.querySelectorAll('.entry')];
+cards.forEach(c=>{c.dataset.orig=c.querySelector('.txt').innerHTML;});
+document.getElementById('q').addEventListener('input',e=>{
+  const term=e.target.value.trim();
+  let hits=0;
+  cards.forEach(c=>{
+    const t=c.querySelector('.txt');
+    if(!term){t.innerHTML=c.dataset.orig;c.classList.remove('nomatch');return;}
+    const re=new RegExp(term.replace(/[.*+?^${}()|[\]\\]/g,'\\$&'),'g');
+    let cnt=0;
+    t.innerHTML=c.dataset.orig.replace(re,m=>{cnt++;return '<mark>'+m+'</mark>';});
+    hits+=cnt;
+    const nameHit=c.dataset.speaker.includes(term);
+    c.classList.toggle('nomatch',cnt===0&&!nameHit);
+  });
+  document.getElementById('searchCount').textContent=term?('命中 '+hits+' 处'):'';
+});
+window.addEventListener('beforeprint',()=>{const q=document.getElementById('q');if(q&&q.value){q.value='';q.dispatchEvent(new Event('input'));}});
+const bt=document.getElementById('backtop');
+window.addEventListener('scroll',()=>{
+  const h=document.documentElement;
+  document.getElementById('progress').style.width=(h.scrollTop/(h.scrollHeight-h.clientHeight)*100)+'%';
+  bt.style.display=h.scrollTop>600?'block':'none';
+});
+bt.addEventListener('click',()=>window.scrollTo({top:0,behavior:'smooth'}));
+</script>
+</body>
+</html>

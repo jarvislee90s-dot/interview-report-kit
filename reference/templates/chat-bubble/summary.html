@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>{{TITLE}}</title>
+<!-- chat-bubble/summary · IM 对话气泡版 · 衍生自 clean-doc/summary -->
+<!-- 发言人配色预设：在下一行写 COLORS 注释，格式为 名字=#十六进制，多人逗号分隔；名字须与实录发言人完全一致，未列出者按调色板自动配色；该注释渲染时剔除 -->
+<style>
+:root{--bg:#eef1f5;--card:#fff;--ink:#1f2937;--muted:#6b7280;--line:#e5e7eb;--accent:#6b7280;--navy:#111827;}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--ink);font:15px/1.85 -apple-system,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif}
+.page{max-width:860px;margin:0 auto;padding:26px 18px 70px}
+.headcard{background:var(--card);border-radius:16px;padding:22px 26px;margin-bottom:18px;box-shadow:0 2px 10px rgba(0,0,0,.05);-webkit-print-color-adjust:exact;print-color-adjust:exact}
+.kicker{font-size:11px;letter-spacing:3px;color:var(--muted);margin-bottom:6px}
+h1.doc-title{font-size:22px;color:var(--navy)}
+/* md 的 # 一级标题由 TITLE 占位符呈现（引擎取同一行），此处隐藏正文 h1 防重复 */
+.page h1:not(.doc-title){display:none}
+.meta{color:var(--muted);font-size:13px;margin-top:8px;line-height:2}
+h2{font-size:17px;color:var(--navy);margin:26px 0 10px;padding:0 0 6px;border-left:4px solid var(--accent);border-bottom:1px solid var(--line)}
+h2::before{content:"● ";color:#6b7280;font-size:12px}
+p{margin:10px 0;overflow-wrap:anywhere;word-break:break-word}
+blockquote{background:#fff;border-left:3px solid var(--accent);border-radius:12px;padding:12px 16px;margin:12px 0;color:#4b5563;font-size:14px;box-shadow:0 1px 4px rgba(0,0,0,.06)}
+ul{margin:8px 0 8px 24px}
+li{margin:5px 0}
+strong{color:#111827}
+hr{border:0;border-top:1px dashed var(--line);margin:24px 0}
+.mindmap-img{width:100%;background:#fff;border-radius:12px;padding:16px;margin-top:8px;box-shadow:0 2px 10px rgba(0,0,0,.05)}
+footer{max-width:860px;margin:0 auto;padding:0 18px 40px;color:#9ca3af;font-size:12px;text-align:center}
+footer a{color:#9ca3af}
+@media print{blockquote,.mindmap-img{box-shadow:none}.headcard,.mindmap-img{break-inside:avoid}}
+</style>
+</head>
+<body>
+<div class="page">
+  <div class="headcard">
+    <div class="kicker">{{KICKER}}</div>
+    <h1 class="doc-title">{{TITLE}}</h1>
+    <div class="meta">{{DATE}}（时长 {{DURATION}}）· {{SPEAKERS_LINE}}</div>
+  </div>
+{{BODY}}
+<!--IF:MINDMAP-->  <h2>附：思维导图</h2>
+  <img class="mindmap-img" alt="思维导图" src="data:image/png;base64,{{MINDMAP_B64}}"><!--/IF:MINDMAP-->
+</div>
+<footer>记录来源：<a href="{{SOURCE_URL}}">飞书妙记</a> · <!-- 复制模板时改：日期 -->2026-XX-XX</footer>
+</body>
+</html>
