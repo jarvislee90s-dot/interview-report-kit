@@ -153,7 +153,7 @@ git commit -m "feat: speaker_check 公共无发言人检测；fetch_feishu 写 s
 - Modify: `SKILL.md`（frontmatter / §1 / §3 开头 / §3 末尾）
 - Modify: `reference/pipeline.md`（文末追加 §6）
 
-- [ ] **Step 1: 改写 SKILL.md frontmatter description**
+- [x] **Step 1: 改写 SKILL.md frontmatter description**
 
 将 SKILL.md 第 3 行替换为：
 
@@ -161,7 +161,7 @@ git commit -m "feat: speaker_check 公共无发言人检测；fetch_feishu 写 s
 description: "会议/访谈实录→纪要/总结 HTML 报告套件。触发条件：用户提供会议转写链接（飞书妙记、腾讯会议录制分享）或本地纪要文档（md/txt/word/pdf）或本地录音，要求生成访谈纪要、会议总结、网页版报告；或说'整理访谈实录''生成访谈纪要HTML'；或仅提供访谈/纪要 markdown 要求套模板渲染 HTML。"
 ```
 
-- [ ] **Step 2: 改写 §1 定位的输入行**
+- [x] **Step 2: 改写 §1 定位的输入行**
 
 将：
 
@@ -175,7 +175,7 @@ description: "会议/访谈实录→纪要/总结 HTML 报告套件。触发条�
 输入（详见第 0 环节输入路由）：**粗略纪要来源**（A1 网页类——飞书妙记 URL、腾讯会议录制分享、其他转写网页；A2 本地文档——md/txt/word/pdf）和/或**本地录音**（B——可分发言人转录，或快速总结）。
 ```
 
-- [ ] **Step 3: §3 标题下插入第 0 环节**
+- [x] **Step 3: §3 标题下插入第 0 环节**
 
 将 `## 3. 工作流（9 环节）` 替换为：
 
@@ -199,7 +199,7 @@ description: "会议/访谈实录→纪要/总结 HTML 报告套件。触发条�
 - 仅录音时先问用户："需要区分发言人出纪要，还是快速出总结？"
 ```
 
-- [ ] **Step 4: ⑨ 之后追加快速总结线小节**
+- [x] **Step 4: ⑨ 之后追加快速总结线小节**
 
 在 SKILL.md `### ⑨ 验证（可选）` 小节之后、`## 4. 产物结构` 之前插入：
 
@@ -213,7 +213,7 @@ description: "会议/访谈实录→纪要/总结 HTML 报告套件。触发条�
 产物：`会议总结.md` + `会议总结.html`（无 访谈纪要.html / 会议实录（修正）.md / corrections.json）。
 ```
 
-- [ ] **Step 5: pipeline.md 文末追加 §6**
+- [x] **Step 5: pipeline.md 文末追加 §6**
 
 ```markdown
 ## 6. 快速总结原则（仅录音 · 单产物线）
@@ -224,7 +224,7 @@ description: "会议/访谈实录→纪要/总结 HTML 报告套件。触发条�
 - 思维导图默认生成（§4 原则照用）。
 ```
 
-- [ ] **Step 6: Commit**
+- [x] **Step 6: Commit**
 
 ```bash
 git add SKILL.md reference/pipeline.md
