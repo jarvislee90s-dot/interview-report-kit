@@ -1069,7 +1069,7 @@ git add requirements-diarize.txt && git commit -m "build: requirements-diarize.t
 - Create: `scripts/asr_diarize.py`
 - Test: `tests/test_asr_diarize.py`
 
-- [ ] **Step 1: 写失败测试（纯函数 merge_sentences / spk_samples）**
+- [x] **Step 1: 写失败测试（纯函数 merge_sentences / spk_samples）**
 
 ```python
 # tests/test_asr_diarize.py
@@ -1110,12 +1110,12 @@ def test_spk_samples_first_mid_last():
     assert spk_samples(paras) == {"spk:0": ["句0", "句2", "句4"]}
 ```
 
-- [ ] **Step 2: 跑测试确认失败**
+- [x] **Step 2: 跑测试确认失败**
 
 Run: `python -m pytest tests/test_asr_diarize.py -v`
 Expected: FAIL（模块不存在）
 
-- [ ] **Step 3: 实现 `scripts/asr_diarize.py`**
+- [x] **Step 3: 实现 `scripts/asr_diarize.py`**
 
 ```python
 # -*- coding: utf-8 -*-
@@ -1222,12 +1222,12 @@ if __name__ == "__main__":
     print('下一步：问用户各号是谁，然后 build_transcript --rename "spk:0=名字,…" 落名。')
 ```
 
-- [ ] **Step 4: 跑测试确认通过**
+- [x] **Step 4: 跑测试确认通过**
 
 Run: `python -m pytest tests/test_asr_diarize.py -v`
 Expected: 4 passed
 
-- [ ] **Step 5: 回归 + Commit**
+- [x] **Step 5: 回归 + Commit**
 
 Run: `python -m pytest -q`
 Expected: 全部 PASS
