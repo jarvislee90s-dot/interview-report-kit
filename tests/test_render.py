@@ -145,3 +145,16 @@ def test_render_doc_strips_mindmap_appendix():
 def test_parse_doc_skips_fences():
     html = R.parse_doc_md("段a\n\n```\ncode line\n```\n\n段b\n")
     assert "<p>段a" in html and "段b" in html and "code line" not in html
+
+
+def test_parse_entry_without_ts():
+    src = "# t\n\n---\n\n## 一、章\n\n**张三**\n\n正文甲\n\n**李四** 00:00:09\n\n正文乙\n"
+    data = R.parse_minutes_md(src)
+    es = data["chapters"][0]["entries"]
+    assert es[0]["speaker"] == "张三" and es[0]["ts"] == "" and es[0]["paras"] == ["正文甲"]
+    assert es[1]["speaker"] == "李四" and es[1]["ts"] == "00:00:09"
+
+
+def test_colors_work_for_spk_labels():
+    colors = R.assign_colors(["spk:0", "spk:1"], {})
+    assert set(colors) == {"spk:0", "spk:1"} and all(v.startswith("#") for v in colors.values())

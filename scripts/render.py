@@ -20,7 +20,7 @@ PALETTE = ["#2563EB", "#7C3AED", "#0D9488", "#D97706", "#DC2626", "#DB2777",
            "#0284C7", "#BE185D", "#4D7C0F", "#C2410C"]
 
 META_RE = re.compile(r"^> (来源|会议时间|发言人|记录来源)：(.+)$", re.M)
-ENTRY_RE = re.compile(r"^\*\*(.+?)\*\* ([\d: /–\-—]+)$")
+ENTRY_RE = re.compile(r"^\*\*(.+?)\*\*(?: ([\d: /–\-—]+))?$")
 CH_TIME_RE = re.compile(r"^(.+?)[（(]([\d:][\d: /–\-—]*)[)）]\s*$")
 KEY_RE = re.compile(r"\{\{(\w+)\}\}")
 ENTRY_KEY_RE = re.compile(r"\{\{(SPEAKER|TS|COLOR|AVATAR|IDX|PARAS_HTML)\}\}")
@@ -63,7 +63,7 @@ def _split_chapter(heading: str):
 
 def parse_minutes_md(src: str) -> dict:
     """实录 md → {meta, chapters:[{title, time, entries:[{speaker, ts, paras}]}]}。
-    正文取首个 \\n---\\n 之后；`## 标题（时间）` 开新章节；`**发言人** 时间` 开新时间块；
+    正文取首个 \\n---\\n 之后；`## 标题（时间）` 开新章节；`**发言人** [时间]` 开新时间块（时间可缺省）；
     其余非空行归入当前块 paras；无章节时自动归入唯一章节“发言记录”。头部区域忽略。
     """
     body = src.split("\n---\n", 1)
@@ -82,7 +82,7 @@ def parse_minutes_md(src: str) -> dict:
             if cur_ch is None:  # 无章节裸格式 → 唯一章节兜底
                 cur_ch = {"title": "发言记录", "time": "", "entries": []}
                 chapters.append(cur_ch)
-            cur_entry = {"speaker": em.group(1).strip(), "ts": em.group(2).strip(), "paras": []}
+            cur_entry = {"speaker": em.group(1).strip(), "ts": (em.group(2) or "").strip(), "paras": []}
             cur_ch["entries"].append(cur_entry)
             continue
         if line.strip() and cur_entry is not None:

@@ -437,7 +437,7 @@ git commit -m "feat: build_transcript 支持 source_label/无 t 段落/--rename 
 - Modify: `scripts/render.py:23`（ENTRY_RE）、`scripts/render.py:85`（group(2) 空值兜底）、`scripts/render.py:66`（docstring 提及）
 - Test: `tests/test_render.py`（追加 2 个测试）
 
-- [ ] **Step 1: 写失败测试（追加到 tests/test_render.py 末尾）**
+- [x] **Step 1: 写失败测试（追加到 tests/test_render.py 末尾）**
 
 ```python
 def test_parse_entry_without_ts():
@@ -453,12 +453,12 @@ def test_colors_work_for_spk_labels():
     assert set(colors) == {"spk:0", "spk:1"} and all(v.startswith("#") for v in colors.values())
 ```
 
-- [ ] **Step 2: 跑测试确认失败**
+- [x] **Step 2: 跑测试确认失败**
 
 Run: `python -m pytest tests/test_render.py::test_parse_entry_without_ts -v`
 Expected: FAIL（`**张三**` 行不匹配 ENTRY_RE，entries 为空或 IndexError）
 
-- [ ] **Step 3: 修改 render.py**
+- [x] **Step 3: 修改 render.py**
 
 第 23 行：
 
@@ -474,12 +474,12 @@ ENTRY_RE = re.compile(r"^\*\*(.+?)\*\*(?: ([\d: /–\-—]+))?$")
 
 第 66 行 docstring 中 `` `**发言人** 时间` 开新时间块 `` 改为 `` `**发言人** [时间]` 开新时间块（时间可缺省） ``。
 
-- [ ] **Step 4: 跑测试确认通过 + 全量回归**
+- [x] **Step 4: 跑测试确认通过 + 全量回归**
 
 Run: `python -m pytest tests/test_render.py -v && python -m pytest -q`
 Expected: 全部 PASS（既有 150 段/53 entries 等解析行为不变）
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```bash
 git add scripts/render.py tests/test_render.py
