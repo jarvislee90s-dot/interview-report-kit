@@ -80,7 +80,9 @@ if __name__ == "__main__":
         model = load_model()
         print("  👂 FunASR 转录 + 说话人分离（首次运行自动下载模型；CPU 耗时可观，建议后台）…")
         res = model.generate(input=str(outdir / "audio.wav"), batch_size_s=300)
-        sentences = (res[0] or {}).get("sentence") or []
+        r0 = res[0] or {}
+        # 句级键名随版本不同：funasr 1.4.x 为 sentence_info（实测），旧示例为 sentence
+        sentences = r0.get("sentence_info") or r0.get("sentence") or []
         raw = {"sentences": sentences}
         raw_p.write_text(json.dumps(raw, ensure_ascii=False, indent=1), encoding="utf-8")
         json_p.unlink(missing_ok=True)

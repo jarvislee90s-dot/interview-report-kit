@@ -1,3 +1,4 @@
 funasr>=1.1
 modelscope>=1.15
 torch>=2.1
+torchaudio>=2.1   # fbank 特征后端（kaldi-native-fbank 无 Py3.14 wheel 时的替代）
