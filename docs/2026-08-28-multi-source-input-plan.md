@@ -1295,7 +1295,7 @@ git commit -m "docs: SKILL.md ③′ 录音分离转录+对话式标记；pipeli
 **Files:**
 - Modify: `README.md`（tagline / 流水线图 / quick start / 目录说明 / 新增发布同步节）
 
-- [ ] **Step 1: README 头部 tagline**
+- [x] **Step 1: README 头部 tagline**
 
 第 5 行 `**飞书妙记访谈 → 让人想读完的 HTML 报告**` 替换为：
 
@@ -1303,7 +1303,7 @@ git commit -m "docs: SKILL.md ③′ 录音分离转录+对话式标记；pipeli
 **会议/访谈实录 → 让人想读完的 HTML 报告**（飞书妙记 · 腾讯会议 · 本地文档 · 本地录音多源输入）
 ```
 
-- [ ] **Step 2: 流水线图（约 55 行）**
+- [x] **Step 2: 流水线图（约 55 行）**
 
 ```text
 妙记 URL ──① fetch_feishu.py──▶ minutes_raw.json ──② build_transcript.py──▶ 会议实录.md
@@ -1315,7 +1315,7 @@ git commit -m "docs: SKILL.md ③′ 录音分离转录+对话式标记；pipeli
 
 （其后原有 ②~⑧ 流程描述保留不动。）
 
-- [ ] **Step 3: quick start 命令区（约 78 行后）追加多源入口示例**
+- [x] **Step 3: quick start 命令区（约 78 行后）追加多源入口示例**
 
 ```bash
 python scripts/fetch_tencent.py "<腾讯会议/cw/分享URL>"   # 公开分享免登录
@@ -1323,7 +1323,7 @@ python scripts/extract_text.py 会议纪要.docx              # 本地文档→�
 python scripts/asr_diarize.py 会议录音.m4a                # 仅录音+分发言人（需 requirements-diarize.txt）
 ```
 
-- [ ] **Step 4: scripts 目录说明行（约 95 行）**
+- [x] **Step 4: scripts 目录说明行（约 95 行）**
 
 ```text
 ├── scripts/                  # 独立 CLI：doctor / fetch_feishu / fetch_tencent / extract_text / build_transcript / asr / asr_diarize / apply_corrections / render / speaker_check
@@ -1331,7 +1331,7 @@ python scripts/asr_diarize.py 会议录音.m4a                # 仅录音+分发
 
 reference 行（约 99 行）`feishu-api.md` 描述改为 `feishu-api.md / tencent-api.md   # 转写源接口手册 + 爬取失败手动兜底流程`。
 
-- [ ] **Step 5: 文末新增"发布与安装目录同步"节**
+- [x] **Step 5: 文末新增"发布与安装目录同步"节**
 
 ```markdown
 ## 发布与安装目录同步
@@ -1345,12 +1345,12 @@ robocopy "E:\LLMproject\Github\interview-report-kit" "C:\Users\bunny\.agents\ski
 同步后跑 `python <skill>/scripts/doctor.py` 验证。版本：v1.1.0（多源输入 P1+P2）、v1.2.0（+分离转录）。
 ```
 
-- [ ] **Step 6: 全量验证**
+- [x] **Step 6: 全量验证**
 
 Run: `python -m pytest -q && python scripts/doctor.py && python scripts/extract_text.py --help && python scripts/fetch_tencent.py --help && python scripts/asr_diarize.py --help`
 Expected: 测试全 PASS；doctor 正常（funasr 未装仅 ⚠️）；三个新 CLI 帮助正常输出
 
-- [ ] **Step 7: Commit + 打版**
+- [x] **Step 7: Commit + 打版**
 
 ```bash
 git add README.md && git commit -m "docs: README 多源化 + 发布同步清单（robocopy 到安装目录）" && git tag v1.2.0

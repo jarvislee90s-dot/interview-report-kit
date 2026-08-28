@@ -2,7 +2,7 @@
 
 # interview-report-kit
 
-**飞书妙记访谈 → 让人想读完的 HTML 报告**
+**会议/访谈实录 → 让人想读完的 HTML 报告**（飞书妙记 · 腾讯会议 · 本地文档 · 本地录音多源输入）
 
 一次真实访谈的原始录音转写，经过爬取、双源交叉校正、LLM 润色、结构化总结、思维导图，
 最终一键套上任意一套模板，变成可以直接外发的单文件网页报告。
@@ -53,6 +53,10 @@
 
 ```
 妙记 URL ──① fetch_feishu.py──▶ minutes_raw.json ──② build_transcript.py──▶ 会议实录.md
+腾讯 /cw/ ──①′ fetch_tencent.py──▶ minutes_raw.json（同上合流）
+本地文档 ──①″ extract_text.py + agent 结构化──▶ minutes_raw.json（同上合流）
+仅录音 ──③′ asr_diarize.py + 对话式标记──▶ minutes_raw.json（同上合流）
+仅录音快速 ──③ asr.py──▶ transcript.txt ──agent──▶ 会议总结.md（单产物）
                                                                 │
 本地音频 ──③ asr.py──────────▶ transcript.txt ──④ 校正──▶ 会议实录（修正）.md ──⑤ 润色 ──▶ ✨
                                                                 │
@@ -78,6 +82,9 @@ python scripts/doctor.py             # 环境自检，全 ✅ 再继续
 python scripts/fetch_feishu.py <妙记URL>          # 首次弹浏览器扫码，登录态持久化
 python scripts/build_transcript.py minutes_raw.json
 python scripts/asr.py <本地音频>                    # 可选；无音频跳过校正环节
+python scripts/fetch_tencent.py "<腾讯会议/cw/分享URL>"   # 公开分享免登录
+python scripts/extract_text.py 会议纪要.docx              # 本地文档→纯文本，agent 再结构化
+python scripts/asr_diarize.py 会议录音.m4a                # 仅录音+分发言人（需 requirements-diarize.txt）
 # ④⑤⑥⑦ 由 LLM 按 reference/pipeline.md 执行（也可全程手工编辑 markdown）
 python scripts/render.py 会议实录（修正）.md --template research-report/minutes --out 访谈纪要.html
 python scripts/render.py 会议总结.md --template research-report/summary --mindmap 思维导图.png --out 会议总结.html
@@ -92,11 +99,11 @@ markdown 改了重跑一遍即可。`--list-templates` 查看全部模板。
 
 ```
 ├── SKILL.md                  # Agent 工作流入口（9 环节），也可作为人工操作手册
-├── scripts/                  # 6 个独立 CLI：doctor / fetch_feishu / build_transcript / asr / apply_corrections / render
+├── scripts/                  # 独立 CLI：doctor / fetch_feishu / fetch_tencent / extract_text / build_transcript / asr / asr_diarize / apply_corrections / render / speaker_check
 ├── reference/
 │   ├── templates/            # 5 套模板 set（minutes + summary 成对）
 │   ├── pipeline.md           # LLM 环节操作细则（校正/润色/总结/导图原则）
-│   └── feishu-api.md         # 妙记接口手册 + 爬取失败手动兜底流程
+│   └── feishu-api.md / tencent-api.md   # 转写源接口手册 + 爬取失败手动兜底流程
 ├── tests/                    # 18 项 pytest（含 doctor↔render 占位符契约锁定）+ 演示数据夹具
 ├── docs/                     # 设计文档、实施计划与模板截图
 └── examples/demo-interview/  # 演示示例：一次虚构路演访谈的全套产物
@@ -106,6 +113,16 @@ markdown 改了重跑一遍即可。`--list-templates` 查看全部模板。
 
 `tests/fixtures/` 与 `examples/` 均为**虚构演示数据**（化名发言人、虚构发行人与示例链接）。
 真实数据跑流水线时产物只落本机工作目录；飞书登录态（`.auth/`）已被 gitignore，永不入库。
+
+## 📦 发布与安装目录同步
+
+本仓库即 skill 源；本机 agent 使用前同步到技能目录（排除登录态与运行产物）：
+
+```bash
+robocopy "E:\LLMproject\Github\interview-report-kit" "C:\Users\bunny\.agents\skills\interview-report-kit" /MIR /XD .git .auth __pycache__ .pytest_cache .playwright-mcp runs asr_runs /XF "*.pyc"
+```
+
+同步后跑 `python <skill>/scripts/doctor.py` 验证。版本：v1.1.0（多源输入 P1+P2）、v1.2.0（+分离转录）。
 
 ## 📄 License
 
