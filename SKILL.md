@@ -32,7 +32,7 @@ playwright install chromium
 python <skill>/scripts/doctor.py
 ```
 
-检查项：ffmpeg、node、mmdc(mermaid-cli)、python:playwright、python:faster_whisper。（确定不提供音频时，faster_whisper 缺失不影响除 ③④ 外的环节，但 doctor 仍会报 ❌。）
+检查项：ffmpeg、node、mmdc(mermaid-cli)、python:playwright、python:faster_whisper、python:docx / python:pypdf（①″ 本地文档线）、python:funasr（③′ 分离转录线，缺失仅 ⚠️ 不阻塞）。（确定不提供音频时，faster_whisper 缺失不影响除 ③④ 外的环节，但 doctor 仍会报 ❌。）
 
 > 约定：下文 `<skill>` 指本 skill 根目录（本文件所在目录）；其余相对路径（`minutes_raw.json`、`会议实录.md` 等）均相对**项目工作目录**——先 `cd` 到项目目录再执行。
 
@@ -63,7 +63,7 @@ python <skill>/scripts/fetch_feishu.py "<妙记URL>"
 - URL 形如 `https://xxx.feishu.cn/minutes/<token>`；可选 `--auth-dir`（默认 `<skill>/.auth`）、`--out`（默认 `minutes_raw.json`）。
 - 首次运行弹出浏览器，**扫码登录飞书**（等待上限 600 秒）；登录态持久存于 `.auth`，之后免登。
 - 预期输出：`✅ 抓取完成：N 段 / M 人 / 末段 M:SS → minutes_raw.json`。
-- 产物结构：`{"url","title","meeting_time","total_expected","paras":[{"s":发言人,"t":毫秒,"x":文本},...]}`。
+- 产物结构：`{"url","source_label","title","meeting_time","total_expected","paras":[{"s":发言人,"t":毫秒(可缺省),"x":文本},...]}`（①′①″③′ 产同契约，`source_label` 标来源名）。
 - **响亮失败**（提示按 `reference/feishu-api.md` 手动兜底）：页面上下文抓取异常、零段落、或段数不足 `total_expected` 的 **90%**。
 
 ### ①′ 腾讯会议分享 → minutes_raw.json
@@ -163,7 +163,7 @@ python <skill>/scripts/render.py 会议实录（修正）.md --template research
 python <skill>/scripts/render.py 会议总结.md --template research-report/summary --mindmap 思维导图.png --out 会议总结.html
 ```
 
-- 模板共 5 set（`chat-bubble` / `clean-doc` / `modern-card` / `research-report` / `timeline`）× 2 版式（minutes/summary）；**纪要与总结建议同 set**。
+- 模板共 5 set（`chat-bubble` / `clean-doc` / `modern-card` / `research-report` / `timeline`）× 2 版式（minutes/summary）；**纪要与总结建议同 set**。无时间戳来源（A2 纯文本文档）**不建议选 timeline**（时间轴版式依赖时间戳；其余 4 套对空时间戳安全降级）。
 - `--mindmap` 把 png base64 内嵌进页面（触发模板 `IF:MINDMAP` 块；不传则该块自动隐藏）。`--mindmap` 仅 summary 版式支持（模板含导图承接块）；minutes 版式传 `--mindmap` 会报错。
 - 可选 `--title` / `--kicker` / `--source-url` / `--out`（缺省 `<md>.html`；禁止与输入同文件）。
 - 头部信息自动从 md meta 行读取：`> 来源：`（→SOURCE_URL）、`> 会议时间：2026-03-10 09:06 · 时长 1:06:24 · …`（→DATE/DURATION）。发言人两形态：原始版头部 `> 发言人 8 人：A、B…` 不匹配 meta 正则，SPEAKERS_LINE 由引擎按实录发言人自动重组；润色版/总结版建议写 `> 发言人：名字、名字`（全角冒号紧跟"发言人"，此形态才会进 SPEAKERS_LINE）。
@@ -190,11 +190,12 @@ python -m http.server 8000
 
 ```text
 <项目目录>/
-├── minutes_raw.json               # ① 妙记原始数据（url/title/meeting_time/total_expected/paras）
+├── minutes_raw.json               # ①①′①″③′ 统一入口契约（url/source_label/title/meeting_time/total_expected?/paras）
 ├── tencent_ai_summary.json        # ①′ 腾讯 AI 纪要参考（仅腾讯源，可选）
 ├── <名>.extracted.txt             # ①″ 本地文档提取的纯文本（A2 通道中间产物）
 ├── 会议实录.md                     # ② 原始实录（未经校对）
 ├── asr_runs/<名称>/               # ③ 本地转录（audio.wav / transcript.txt / transcript.json）
+├── asr_runs/<名称>/diarize_raw.json # ③′ 分离转录原始（句级；段级即 minutes_raw.json）
 ├── corrections.json               # ④ 校正规则（agent 生成，含 expect/basis，可审计）
 ├── 会议实录（修正）.md              # ④⑤ 校正+润色后的终版实录（渲染纪要的源）
 ├── 会议总结.md                     # ⑥ 总结源稿（渲染总结的源）

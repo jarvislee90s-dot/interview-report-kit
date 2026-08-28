@@ -158,3 +158,12 @@ def test_parse_entry_without_ts():
 def test_colors_work_for_spk_labels():
     colors = R.assign_colors(["spk:0", "spk:1"], {})
     assert set(colors) == {"spk:0", "spk:1"} and all(v.startswith("#") for v in colors.values())
+
+
+def test_all_templates_render_no_ts_minutes():
+    md = "# t\n\n---\n\n**甲**\n\n大家好\n\n**乙** 00:00:05\n\n谢谢\n"
+    tdir = Path(__file__).resolve().parent.parent / "reference" / "templates"
+    for tset in ("chat-bubble", "clean-doc", "modern-card", "research-report", "timeline"):
+        tpl = (tdir / tset / "minutes.html").read_text(encoding="utf-8")
+        html = R.render_minutes(md, tpl)
+        assert "大家好" in html and "谢谢" in html, tset

@@ -44,3 +44,15 @@ def test_rename_maps_and_keeps_unmapped(tmp_path, capsys):
 def test_no_speaker_warning(tmp_path, capsys):
     _run(tmp_path, {"paras": [{"s": "", "t": 0, "x": "a"}]})
     assert "无发言人" in capsys.readouterr().out
+
+def test_all_missing_t_last_dash(tmp_path):
+    txt = _run(tmp_path, {"paras": [{"s": "甲", "x": "a"}, {"s": "乙", "x": "b"}]})
+    assert "末段 -" in txt
+
+
+def test_parse_rename_errors():
+    import pytest
+    with pytest.raises(SystemExit):
+        B.parse_rename("spk:0")  # 缺 =
+    with pytest.raises(SystemExit):
+        B.parse_rename(" , ")  # 全空

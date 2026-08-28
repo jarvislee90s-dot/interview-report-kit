@@ -9,7 +9,7 @@
 
 [![Python 3.10+](https://img.shields.io/badge/python-3.10%2B-blue.svg)](https://www.python.org/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
-[![Tests](https://img.shields.io/badge/tests-18%20passed-brightgreen.svg)](tests/)
+[![Tests](https://img.shields.io/badge/tests-45%20passed-brightgreen.svg)](tests/)
 
 </div>
 
@@ -98,13 +98,13 @@ markdown 改了重跑一遍即可。`--list-templates` 查看全部模板。
 ## 📁 目录结构
 
 ```
-├── SKILL.md                  # Agent 工作流入口（9 环节），也可作为人工操作手册
+├── SKILL.md                  # Agent 工作流入口（⓪~⑨ 环节），也可作为人工操作手册
 ├── scripts/                  # 独立 CLI：doctor / fetch_feishu / fetch_tencent / extract_text / build_transcript / asr / asr_diarize / apply_corrections / render / speaker_check
 ├── reference/
 │   ├── templates/            # 5 套模板 set（minutes + summary 成对）
 │   ├── pipeline.md           # LLM 环节操作细则（校正/润色/总结/导图原则）
 │   └── feishu-api.md / tencent-api.md   # 转写源接口手册 + 爬取失败手动兜底流程
-├── tests/                    # 18 项 pytest（含 doctor↔render 占位符契约锁定）+ 演示数据夹具
+├── tests/                    # 45 项 pytest（含 doctor↔render 占位符契约锁定）+ 演示数据夹具
 ├── docs/                     # 设计文档、实施计划与模板截图
 └── examples/demo-interview/  # 演示示例：一次虚构路演访谈的全套产物
 ```

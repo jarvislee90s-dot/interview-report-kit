@@ -103,7 +103,8 @@ if __name__ == "__main__":
     ap.add_argument("--out", type=Path, default=Path("会议实录.md"))
     ap.add_argument("--url", default=None, help="覆盖 json 内 url")
     ap.add_argument("--rename", default=None,
-                    help='发言人改名映射，如 "spk:0=张三,spk:1=主持人"（对话式标记后落名）')
+                    help='发言人改名映射，如 "spk:0=张三,spk:1=主持人"（逗号分隔，新名不可含逗号；'
+                         "对话式标记后落名）")
     a = ap.parse_args()
     if not a.json_path.exists():
         sys.exit(f"文件不存在：{a.json_path}")
