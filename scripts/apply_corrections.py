@@ -11,7 +11,7 @@ import re
 import sys
 from pathlib import Path
 
-PAT = re.compile(r"^\*\*(.+?)\*\* (\d{2}:\d{2}:\d{2})", re.M)
+PAT = re.compile(r"^\*\*(.+?)\*\*(?: \d{2}:\d{2}:\d{2})?", re.M)  # 时间戳可选：与 build_transcript 的 t 可缺省契约一致
 NOTE_OLD = "> 说明：本文件为原始实录，未经校对。"
 NOTE_NEW = "> 说明：本文件已对照本地音频转录逐段交叉校对（依据见 corrections.json）。"
 
@@ -72,7 +72,7 @@ def main() -> None:
         text = re.sub(r"^> 说明：.*未经校对。*$", NOTE_NEW, text, count=1, flags=re.M)
 
     if len(PAT.findall(text)) != n_paras:
-        sys.exit(f"❌ 段落数变化：{n_paras} → {len(PAT.findall(text))}（规则疑似破坏 **发言人** 时间戳行）")
+        sys.exit(f"❌ 段落数变化：{n_paras} → {len(PAT.findall(text))}（规则疑似破坏 **发言人**/时间戳行）")
 
     a.out.parent.mkdir(parents=True, exist_ok=True)
     a.out.write_text(text, encoding="utf-8")
