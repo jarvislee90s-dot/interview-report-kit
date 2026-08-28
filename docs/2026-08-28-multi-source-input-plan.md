@@ -962,7 +962,7 @@ git commit -m "docs: tencent-api.md 腾讯会议分享接口手册与手动兜�
 - Modify: `scripts/doctor.py:27-33`（check_env 循环后追加）
 - Modify: `SKILL.md`（⓪ 路由表去"Phase 2"标注；① 后插 ①′/①″；§4/§6 补充）
 
-- [ ] **Step 1: doctor.py check_env 追加依赖项**
+- [x] **Step 1: doctor.py check_env 追加依赖项**
 
 在 `for mod, hint in (("playwright", ...), ("faster_whisper", ...))` 循环之后、`return 1 if bad else 0` 之前插入：
 
@@ -980,7 +980,7 @@ git commit -m "docs: tencent-api.md 腾讯会议分享接口手册与手动兜�
                 item(f"python:{mod}", False, hint)
 ```
 
-- [ ] **Step 2: SKILL.md 路由表去掉 3 处"（Phase 2 交付）"字样**
+- [x] **Step 2: SKILL.md 路由表去掉 3 处"（Phase 2 交付）"字样**
 
 将 ⓪ 表中三行改为（"Phase 3 交付"暂保留，Task 12 处理）：
 
@@ -990,7 +990,7 @@ git commit -m "docs: tencent-api.md 腾讯会议分享接口手册与手动兜�
 | 本地纪要文档（md/txt/word/pdf） | `extract_text.py` + agent 结构化（①″） | 双产物 |
 ```
 
-- [ ] **Step 3: SKILL.md ① 节之后插入 ①′ 与 ①″**
+- [x] **Step 3: SKILL.md ① 节之后插入 ①′ 与 ①″**
 
 在 `### ① 抓取妙记 → minutes_raw.json` 小节末尾（"**响亮失败**…"那行之后）插入：
 
@@ -1016,7 +1016,7 @@ python <skill>/scripts/extract_text.py <md/txt/docx/pdf 文件>
 - 其他转写网页（通义听悟/钉钉闪记/讯飞听见等）：agent 用浏览器 MCP 打开页面复制逐字稿正文存 txt，走本通道。
 ```
 
-- [ ] **Step 4: SKILL.md §4 产物结构、§6 兜底补两行**
+- [x] **Step 4: SKILL.md §4 产物结构、§6 兜底补两行**
 
 §4 树中 `minutes_raw.json` 行下加：
 
@@ -1031,7 +1031,7 @@ python <skill>/scripts/extract_text.py <md/txt/docx/pdf 文件>
 `fetch_tencent.py` 失败（未捕获逐字稿请求 / 零段落 / 分页异常）时，按 **`reference/tencent-api.md`** 用 agent 浏览器在页面上下文手动分页取数补齐 `minutes_raw.json`，然后从 ② 继续。
 ```
 
-- [ ] **Step 5: 回归 + 打版**
+- [x] **Step 5: 回归 + 打版**
 
 Run: `python -m pytest -q && python scripts/doctor.py`
 Expected: 测试全 PASS；doctor 显示 `python:docx` / `python:pypdf` ✅（funasr 视安装显示 ⚠️ 不影响退出码）

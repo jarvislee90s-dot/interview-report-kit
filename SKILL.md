@@ -43,9 +43,9 @@ python <skill>/scripts/doctor.py
 | 输入形态 | 入口 | 输出 |
 |---|---|---|
 | 飞书妙记 URL（`*.feishu.cn/minutes/*`） | ① `fetch_feishu.py` | 双产物 |
-| 腾讯会议录制分享（`meeting.tencent.com/cw/*`） | ①′ `fetch_tencent.py`（Phase 2 交付） | 双产物 |
-| 其他转写网页 | agent 浏览器复制正文存 txt → `extract_text.py` 同 A2 通道（Phase 2 交付） | 双产物 |
-| 本地纪要文档（md/txt/word/pdf） | `extract_text.py` + agent 结构化（Phase 2 交付） | 双产物 |
+| 腾讯会议录制分享（`meeting.tencent.com/cw/*`） | ①′ `fetch_tencent.py` | 双产物 |
+| 其他转写网页 | agent 浏览器复制正文存 txt → `extract_text.py` 同 A2 通道 | 双产物 |
+| 本地纪要文档（md/txt/word/pdf） | `extract_text.py` + agent 结构化（①″） | 双产物 |
 | 仅本地录音 + 要区分发言人 | `asr_diarize.py` + 对话式标记（Phase 3 交付） | 双产物 |
 | 仅本地录音 + 快速 | ③ `asr.py` → 快速总结线（见 ⑨ 后） | 仅 会议总结.html |
 | 已有规范纪要/总结 md | 直接 ⑧ | 视 md 类型 |
@@ -65,6 +65,26 @@ python <skill>/scripts/fetch_feishu.py "<妙记URL>"
 - 预期输出：`✅ 抓取完成：N 段 / M 人 / 末段 M:SS → minutes_raw.json`。
 - 产物结构：`{"url","title","meeting_time","total_expected","paras":[{"s":发言人,"t":毫秒,"x":文本},...]}`。
 - **响亮失败**（提示按 `reference/feishu-api.md` 手动兜底）：页面上下文抓取异常、零段落、或段数不足 `total_expected` 的 **90%**。
+
+### ①′ 腾讯会议分享 → minutes_raw.json
+
+```bash
+python <skill>/scripts/fetch_tencent.py "<录制分享URL>"
+```
+
+- URL 形如 `https://meeting.tencent.com/cw/<code>`；公开链接免登录，带访问密码则弹浏览器等待（上限 600 秒）。
+- 默认顺带抓腾讯 AI 纪要存 `tencent_ai_summary.json`（⑥ 总结的参考素材，失败不阻塞；`--no-ai-summary` 关闭）。
+- 预期输出：`✅ 抓取完成：N 段 / M 人 / 末段 M:SS → minutes_raw.json`；响亮失败同 ①（手册为 `reference/tencent-api.md`）。
+
+### ①″ 本地纪要文档 → minutes_raw.json（A2 通道，其他转写网页同通道）
+
+```bash
+python <skill>/scripts/extract_text.py <md/txt/docx/pdf 文件>
+```
+
+- 产出 `<名>.extracted.txt`（纯文本）；脚本只做解码与格式提取，**不做结构识别**。
+- **agent 结构化**：读该文本，忠实转录为 `minutes_raw.json`——`source_label` 填 `"本地文档：<文件名>"`；`t` 毫秒、无时间戳可省略；识别不出发言人则 `s` 留空（走场景 5 判定）；**只转录不润色**（润色是 ⑤ 的事）。写完跑 ② `build_transcript.py` 把关转换，被拒绝则修正 json 重跑。
+- 其他转写网页（通义听悟/钉钉闪记/讯飞听见等）：agent 用浏览器 MCP 打开页面复制逐字稿正文存 txt，走本通道。
 
 ### ② 原始实录 → 会议实录.md
 
@@ -153,6 +173,8 @@ python -m http.server 8000
 ```text
 <项目目录>/
 ├── minutes_raw.json               # ① 妙记原始数据（url/title/meeting_time/total_expected/paras）
+├── tencent_ai_summary.json        # ①′ 腾讯 AI 纪要参考（仅腾讯源，可选）
+├── <名>.extracted.txt             # ①″ 本地文档提取的纯文本（A2 通道中间产物）
 ├── 会议实录.md                     # ② 原始实录（未经校对）
 ├── asr_runs/<名称>/               # ③ 本地转录（audio.wav / transcript.txt / transcript.json）
 ├── corrections.json               # ④ 校正规则（agent 生成，含 expect/basis，可审计）
@@ -177,3 +199,5 @@ python -m http.server 8000
 ## 6. 手动兜底
 
 `fetch_feishu.py` 失败（接口字段变化、登录异常、段数 <90%）时，按 **`reference/feishu-api.md`** 用 agent 浏览器（MCP）在页面上下文手动调妙记接口补齐 `minutes_raw.json`，然后从 ② 继续。
+
+`fetch_tencent.py` 失败（未捕获逐字稿请求 / 零段落 / 分页异常）时，按 **`reference/tencent-api.md`** 用 agent 浏览器在页面上下文手动分页取数补齐 `minutes_raw.json`，然后从 ② 继续。

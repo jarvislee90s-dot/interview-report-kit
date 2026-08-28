@@ -31,6 +31,17 @@ def check_env() -> int:
             item(f"python:{mod}", True)
         except ImportError:
             item(f"python:{mod}", False, hint)
+    for mod, hint, optional in (("docx", "pip install python-docx", False),
+                                ("pypdf", "pip install pypdf", False),
+                                ("funasr", "pip install -r requirements-diarize.txt", True)):
+        try:
+            __import__(mod)
+            item(f"python:{mod}", True)
+        except ImportError:
+            if optional:
+                print(f"  ⚠️ python:{mod}   {hint}（可选：仅'仅录音+分发言人'线需要）")
+            else:
+                item(f"python:{mod}", False, hint)
     return 1 if bad else 0
 
 
