@@ -493,7 +493,7 @@ git commit -m "feat: render 纪要版式 ENTRY_RE 时间戳可选（承接无时
 - Modify: `requirements.txt`（追加 2 行）
 - Test: `tests/test_extract_text.py`
 
-- [ ] **Step 1: 写失败测试**
+- [x] **Step 1: 写失败测试**
 
 ```python
 # tests/test_extract_text.py
@@ -549,12 +549,12 @@ def test_unsupported_ext_exits(tmp_path):
         X.extract_any(f)
 ```
 
-- [ ] **Step 2: 跑测试确认失败**
+- [x] **Step 2: 跑测试确认失败**
 
 Run: `python -m pytest tests/test_extract_text.py -v`
 Expected: FAIL（模块不存在）
 
-- [ ] **Step 3: 实现 `scripts/extract_text.py`**
+- [x] **Step 3: 实现 `scripts/extract_text.py`**
 
 ```python
 # -*- coding: utf-8 -*-
@@ -639,7 +639,7 @@ if __name__ == "__main__":
     print("下一步：agent 按 SKILL.md A2 通道读取该文件，忠实结构化为 minutes_raw.json，再跑 build_transcript。")
 ```
 
-- [ ] **Step 4: requirements.txt 追加依赖**
+- [x] **Step 4: requirements.txt 追加依赖**
 
 文件末尾追加：
 
@@ -648,12 +648,12 @@ python-docx>=1.1.0
 pypdf>=4.0.0
 ```
 
-- [ ] **Step 5: 安装依赖并跑测试**
+- [x] **Step 5: 安装依赖并跑测试**
 
 Run: `pip install -r requirements.txt && python -m pytest tests/test_extract_text.py -v`
 Expected: 6 passed
 
-- [ ] **Step 6: Commit**
+- [x] **Step 6: Commit**
 
 ```bash
 git add scripts/extract_text.py tests/test_extract_text.py requirements.txt
