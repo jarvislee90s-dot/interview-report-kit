@@ -899,7 +899,7 @@ git commit -m "feat: fetch_tencent 腾讯会议录制分享→minutes_raw.json�
 **Files:**
 - Create: `reference/tencent-api.md`
 
-- [ ] **Step 1: 写入手册全文**
+- [x] **Step 1: 写入手册全文**
 
 ````markdown
 # 腾讯会议录制分享接口手册（tencent-api.md）
@@ -949,7 +949,7 @@ minutes.paragraphs[]          → paras[] 一段一项
 `.auth`（与 fetch_feishu 共用）仅在有访问密码/要求登录的分享页有用；公开链接不需要。换机器或损坏时删除 `.auth` 重跑。
 ````
 
-- [ ] **Step 2: Commit**
+- [x] **Step 2: Commit**
 
 ```bash
 git add reference/tencent-api.md
