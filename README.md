@@ -15,6 +15,18 @@
 
 ---
 
+## ✨ 演示效果
+
+一次虚构路演访谈（1 小时 6 分 · 8 位发言人）跑完整条流水线的最终产出，`research-report` 版式、单文件 HTML：
+
+| 📄 访谈纪要（53 个发言块 · 按发言人着色 · 可搜索） | 📄 会议总结（8 个主题章节 · 尾部内嵌思维导图） |
+|:---:|:---:|
+| <img src="docs/screenshots/demo-minutes.png" width="460"> | <img src="docs/screenshots/demo-summary.png" width="460"> |
+
+完整产物（含 markdown 中间稿与思维导图源文件）见 [examples/demo-interview/](examples/demo-interview/)。
+
+---
+
 ## 🎨 五套模板，一键换装
 
 同一次访谈的同一份 markdown，换一个 `--template` 参数就是另一种气质——
