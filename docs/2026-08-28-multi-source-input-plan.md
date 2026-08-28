@@ -1049,7 +1049,7 @@ git add scripts/doctor.py SKILL.md && git commit -m "feat: doctor 增 docx/pypdf
 **Files:**
 - Create: `requirements-diarize.txt`
 
-- [ ] **Step 1: 写文件**
+- [x] **Step 1: 写文件**
 
 ```text
 funasr>=1.1
@@ -1057,7 +1057,7 @@ modelscope>=1.15
 torch>=2.1
 ```
 
-- [ ] **Step 2: Commit**
+- [x] **Step 2: Commit**
 
 ```bash
 git add requirements-diarize.txt && git commit -m "build: requirements-diarize.txt（分离转录重依赖，可选安装）"
