@@ -122,6 +122,8 @@ markdown 改了重跑一遍即可。`--list-templates` 查看全部模板。
 robocopy "E:\LLMproject\Github\interview-report-kit" "C:\Users\bunny\.agents\skills\interview-report-kit" /MIR /XD .git .auth __pycache__ .pytest_cache .playwright-mcp runs asr_runs /XF "*.pyc"
 ```
 
+> Git Bash 下须加前缀 `MSYS_NO_PATHCONV=1`（否则 `/MIR` 会被转义成路径导致 exit 16）；robocopy 退出码 ≤7 均为成功。
+
 同步后跑 `python <skill>/scripts/doctor.py` 验证。版本：v1.1.0（多源输入 P1+P2）、v1.2.0（+分离转录）。
 
 ## 📄 License
