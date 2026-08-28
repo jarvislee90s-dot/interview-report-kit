@@ -38,6 +38,8 @@ minutes.paragraphs[]          → paras[] 一段一项
 
 ## 4. 何时需要人工抓包比对
 
+另注意：腾讯会**服务端重新分段**（段落 `pid` 与时间线重排，两次抓取的段数/首段可能不同），属正常现象，不是抓取缺陷。
+
 出现以下情况说明腾讯改了接口，此时才需要重新核对 §1/§2 字段：`minutes/detail` 返回 code≠0 或无 `minutes` 键；`paragraphs[].speaker / start_time / sentences` 字段名变化；分页 `pid` 游标不推进（同页重复返回，guard 2000 页内未收敛）。
 
 ## 5. 登录态

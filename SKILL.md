@@ -113,7 +113,7 @@ python <skill>/scripts/asr.py <音频/视频文件> --outdir asr_runs/<名称>
 python <skill>/scripts/asr_diarize.py <音频/视频文件> [--outdir asr_runs/<名称>] [--out minutes_raw.json]
 ```
 
-- 依赖 `requirements-diarize.txt`（funasr，模型从 ModelScope 自动下载）；CPU 可跑、耗时可观，建议后台运行。
+- 依赖 `requirements-diarize.txt`（funasr + torchaudio，模型从 ModelScope 自动下载）；CPU 实测 RTF≈0.3（1 小时音频约 20 分钟），长音频仍建议后台运行。
 - 产物：`asr_runs/<名称>/diarize_raw.json`（句级原始）+ `minutes_raw.json`（段级，`s=spk:0/1/2…`）。
 - **对话式标记**：脚本结束打印每号声音首/中/末样例句。Agent 向用户提问：
   「检测到 N 个说话人——spk:0（样例…）、spk:1（样例…）——分别是谁？」
