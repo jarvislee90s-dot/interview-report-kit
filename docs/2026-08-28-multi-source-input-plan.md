@@ -241,7 +241,7 @@ git commit -m "docs: SKILL.md 第 0 环节输入路由 + 快速总结线；pipel
 - Modify: `scripts/build_transcript.py`（整文件替换）
 - Test: `tests/test_build_transcript.py`（新建）
 
-- [ ] **Step 1: 写失败测试**
+- [x] **Step 1: 写失败测试**
 
 ```python
 # tests/test_build_transcript.py
@@ -292,12 +292,12 @@ def test_no_speaker_warning(tmp_path, capsys):
     assert "无发言人" in capsys.readouterr().out
 ```
 
-- [ ] **Step 2: 跑测试确认失败**
+- [x] **Step 2: 跑测试确认失败**
 
 Run: `python -m pytest tests/test_build_transcript.py -v`
 Expected: FAIL（`TypeError: build() got an unexpected keyword argument 'rename'` 等）
 
-- [ ] **Step 3: 整文件替换 `scripts/build_transcript.py`**
+- [x] **Step 3: 整文件替换 `scripts/build_transcript.py`**
 
 ```python
 # -*- coding: utf-8 -*-
@@ -414,17 +414,17 @@ if __name__ == "__main__":
 
 （注：无 url 时的来源行从 v1.0 的 `> 记录来源：飞书妙记（自动化爬取）` 简化为 `> 记录来源：{label}`，属预期行为变化。）
 
-- [ ] **Step 4: 跑测试确认通过**
+- [x] **Step 4: 跑测试确认通过**
 
 Run: `python -m pytest tests/test_build_transcript.py -v`
 Expected: 5 passed
 
-- [ ] **Step 5: 回归（旧 fixture 行为不变）**
+- [x] **Step 5: 回归（旧 fixture 行为不变）**
 
 Run: `python -m pytest -q`
 Expected: 全部 PASS
 
-- [ ] **Step 6: Commit**
+- [x] **Step 6: Commit**
 
 ```bash
 git add scripts/build_transcript.py tests/test_build_transcript.py
