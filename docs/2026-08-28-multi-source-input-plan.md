@@ -668,7 +668,7 @@ git commit -m "feat: extract_text 本地文档(md/txt/docx/pdf)→纯文本，�
 
 接口预研结论（2026-08-28 实测 `https://meeting.tencent.com/cw/NX3DWjw21f`）：公开分享免登录；页面加载自发请求 `GET /wemeet-cloudrecording-webapi/v1/minutes/detail?...&id=<share_id>&meeting_id=...&recording_id=...&lang=zh&start_pid=0&limit=20&...`；响应根级 `more:true` 表示续页（下一页把 `start_pid` 换成 `pid=<上一页末段 pid>`）；段落字段 `speaker.user_name` / `start_time`(毫秒) / `sentences[].words[].text`。
 
-- [ ] **Step 1: 写失败测试（纯函数 paras_from_pages）**
+- [x] **Step 1: 写失败测试（纯函数 paras_from_pages）**
 
 ```python
 # tests/test_fetch_tencent.py
@@ -710,12 +710,12 @@ def test_paras_from_pages_missing_speaker():
     assert T.paras_from_pages([pg]) == [{"s": "", "t": 10, "x": "x"}]
 ```
 
-- [ ] **Step 2: 跑测试确认失败**
+- [x] **Step 2: 跑测试确认失败**
 
 Run: `python -m pytest tests/test_fetch_tencent.py -v`
 Expected: FAIL（模块不存在）
 
-- [ ] **Step 3: 实现 `scripts/fetch_tencent.py`**
+- [x] **Step 3: 实现 `scripts/fetch_tencent.py`**
 
 ```python
 # -*- coding: utf-8 -*-
@@ -877,7 +877,7 @@ if __name__ == "__main__":
     print(f"✅ 抓取完成：{len(paras)} 段 / {len(speakers)} 人 / 末段 {mmss(paras[-1]['t'])} → {a.out}")
 ```
 
-- [ ] **Step 4: 跑测试确认通过**
+- [x] **Step 4: 跑测试确认通过**
 
 Run: `python -m pytest tests/test_fetch_tencent.py -v`
 Expected: 2 passed
@@ -887,7 +887,7 @@ Expected: 2 passed
 Run: `python scripts/fetch_tencent.py "https://meeting.tencent.com/cw/NX3DWjw21f" --out runs/tencent_smoke.json`
 Expected: 末行 `✅ 抓取完成：N 段 / M 人 / 末段 M:SS`（N 应为数百段量级）。跳过不阻塞（Playwright 壳不做自动化测试）。
 
-- [ ] **Step 6: Commit**
+- [x] **Step 6: Commit**
 
 ```bash
 git add scripts/fetch_tencent.py tests/test_fetch_tencent.py
