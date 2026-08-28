@@ -93,6 +93,7 @@ def parse_minutes_md(src: str) -> dict:
 def parse_doc_md(src: str) -> str:
     """极简 md → HTML：h1/h2/hr/ul/blockquote/p + 行内加粗。供 summary 模板 {{BODY}}。"""
     out, para, ul, bq = [], [], [], []
+    fence = False
 
     def flush():
         nonlocal para, ul, bq
@@ -106,6 +107,12 @@ def parse_doc_md(src: str) -> str:
 
     for raw in src.splitlines():
         line = raw.strip()
+        if line.startswith("```"):
+            fence = not fence
+            flush()
+            continue
+        if fence:
+            continue
         if not line:
             flush()
         elif line.startswith("## "):
@@ -293,6 +300,8 @@ def render_doc(md_text: str, tpl: str, title=None, kicker=None, date=None, durat
     tpl = _strip_colors(tpl)
     if "{{BODY}}" not in tpl:
         sys.exit("❌ summary 模板必须包含 {{BODY}} 占位符")
+    # 思维导图由 --mindmap 注入模板 IF 块；md 自带的导图附录（图片链接/mermaid 源码）整体剥离，避免源码漏出与重复
+    md_text = re.split(r"^##\s*附[:：]\s*思维导图.*$", md_text, maxsplit=1, flags=re.M)[0].rstrip() + "\n"
     # summary 缺省 kicker 与 minutes 区分（_head_ctx 通用缺省 "MEETING MINUTES" 仅供 minutes）
     ctx = _head_ctx(md_text, title=title, kicker=kicker or "MEETING SUMMARY", date=date,
                     duration=duration, speakers_line=speakers_line, source_url=source_url,

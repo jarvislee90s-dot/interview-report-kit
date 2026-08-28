@@ -133,3 +133,15 @@ def test_mindmap_requires_template_hook():
         assert False, "render_doc should raise SystemExit"
     except SystemExit:
         pass
+
+
+def test_render_doc_strips_mindmap_appendix():
+    md = "# T\n\n正文段。\n\n## 附：思维导图\n\n![x](./x.png)\n\n```mermaid\nmindmap\n  root((r))\n```\n"
+    out = R.render_doc(md, "tpl {{BODY}}")
+    assert "正文段" in out
+    assert "附：思维导图" not in out and "mindmap" not in out and "root((r))" not in out
+
+
+def test_parse_doc_skips_fences():
+    html = R.parse_doc_md("段a\n\n```\ncode line\n```\n\n段b\n")
+    assert "<p>段a" in html and "段b" in html and "code line" not in html
