@@ -46,7 +46,7 @@ python <skill>/scripts/doctor.py
 | 腾讯会议录制分享（`meeting.tencent.com/cw/*`） | ①′ `fetch_tencent.py` | 双产物 |
 | 其他转写网页 | agent 浏览器复制正文存 txt → `extract_text.py` 同 A2 通道 | 双产物 |
 | 本地纪要文档（md/txt/word/pdf） | `extract_text.py` + agent 结构化（①″） | 双产物 |
-| 仅本地录音 + 要区分发言人 | `asr_diarize.py` + 对话式标记（Phase 3 交付） | 双产物 |
+| 仅本地录音 + 要区分发言人 | `asr_diarize.py` + 对话式标记（③′） | 双产物 |
 | 仅本地录音 + 快速 | ③ `asr.py` → 快速总结线（见 ⑨ 后） | 仅 会议总结.html |
 | 已有规范纪要/总结 md | 直接 ⑧ | 视 md 类型 |
 
@@ -106,6 +106,24 @@ python <skill>/scripts/asr.py <音频/视频文件> --outdir asr_runs/<名称>
 - 流程：ffmpeg 提取 16k 单声道 wav → faster-whisper 转录；产物 `transcript.txt` / `transcript.json`（及 `audio.wav`）。
 - **CPU 转录约 1.2× 音频时长**（1 小时音频 ≈ 72 分钟）——建议后台运行，并与 ①② 并行。
 - 模型下载失败自动切换 hf-mirror 重跑；产物已存在则跳过（**断点续跑**，中断后原命令重跑即可）。
+
+### ③′ 录音分离转录（仅录音且要纪要时替代 ①；产出后同源不校对，跳④）
+
+```bash
+python <skill>/scripts/asr_diarize.py <音频/视频文件> [--outdir asr_runs/<名称>] [--out minutes_raw.json]
+```
+
+- 依赖 `requirements-diarize.txt`（funasr，模型从 ModelScope 自动下载）；CPU 可跑、耗时可观，建议后台运行。
+- 产物：`asr_runs/<名称>/diarize_raw.json`（句级原始）+ `minutes_raw.json`（段级，`s=spk:0/1/2…`）。
+- **对话式标记**：脚本结束打印每号声音首/中/末样例句。Agent 向用户提问：
+  「检测到 N 个说话人——spk:0（样例…）、spk:1（样例…）——分别是谁？」
+  用户回复后一步落名并出实录：
+
+```bash
+python <skill>/scripts/build_transcript.py minutes_raw.json --rename "spk:0=张三,spk:1=主持人" --out 会议实录.md
+```
+
+- 之后直接进 ⑤（同源**不校对**，无③④交叉）；用户不确定的标签保留 `spk:N` 原名（渲染时按普通发言人名展示）。
 
 ### ④ 双源比对 → corrections.json → 会议实录（修正）.md
 

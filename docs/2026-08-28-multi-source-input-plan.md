@@ -1243,13 +1243,13 @@ git commit -m "feat: asr_diarize FunASR 分离转录→minutes_raw.json（spk:N 
 - Modify: `SKILL.md`（⓪ 表去"Phase 3 交付"；③ 节后插 ③′）
 - Modify: `reference/pipeline.md`（文末追加 §7）
 
-- [ ] **Step 1: SKILL.md ⓪ 表中该行去掉"（Phase 3 交付）"**
+- [x] **Step 1: SKILL.md ⓪ 表中该行去掉"（Phase 3 交付）"**
 
 ```markdown
 | 仅本地录音 + 要区分发言人 | `asr_diarize.py` + 对话式标记（③′） | 双产物 |
 ```
 
-- [ ] **Step 2: SKILL.md ③ 节之后插入 ③′**
+- [x] **Step 2: SKILL.md ③ 节之后插入 ③′**
 
 在 `### ③ 本地音频转录…` 小节末尾之后插入：
 
@@ -1273,7 +1273,7 @@ python <skill>/scripts/build_transcript.py minutes_raw.json --rename "spk:0=张�
 - 之后直接进 ⑤（同源**不校对**，无③④交叉）；用户不确定的标签保留 `spk:N` 原名（渲染时按普通发言人名展示）。
 ```
 
-- [ ] **Step 3: pipeline.md 文末追加 §7**
+- [x] **Step 3: pipeline.md 文末追加 §7**
 
 ```markdown
 ## 7. 对话式标记发言人（③′ 之后、② 落名）
@@ -1283,7 +1283,7 @@ python <skill>/scripts/build_transcript.py minutes_raw.json --rename "spk:0=张�
 - 落名后头部来源为"本地录音（FunASR 分离转录）"；说明行写"转写经 FunASR 说话人分离，发言人名为人工标记"。
 ```
 
-- [ ] **Step 4: Commit**
+- [x] **Step 4: Commit**
 
 ```bash
 git add SKILL.md reference/pipeline.md
