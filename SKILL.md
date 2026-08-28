@@ -1,13 +1,13 @@
 ---
 name: interview-report-kit
-description: "飞书妙记访谈实录→纪要/总结 HTML 报告套件。触发条件：用户提供飞书妙记链接（+可选本地音频）要求生成访谈纪要、会议总结、网页版报告；或说'整理访谈实录''生成访谈纪要HTML'；或仅提供访谈/纪要 markdown 要求套模板渲染 HTML。"
+description: "会议/访谈实录→纪要/总结 HTML 报告套件。触发条件：用户提供会议转写链接（飞书妙记、腾讯会议录制分享）或本地纪要文档（md/txt/word/pdf）或本地录音，要求生成访谈纪要、会议总结、网页版报告；或说'整理访谈实录''生成访谈纪要HTML'；或仅提供访谈/纪要 markdown 要求套模板渲染 HTML。"
 ---
 
 # interview-report-kit
 
 ## 1. 定位
 
-输入：**飞书妙记 URL**（必须）+ **本地音频/视频文件**（可选，用于交叉校正）。
+输入（详见第 0 环节输入路由）：**粗略纪要来源**（A1 网页类——飞书妙记 URL、腾讯会议录制分享、其他转写网页；A2 本地文档——md/txt/word/pdf）和/或**本地录音**（B——可分发言人转录，或快速总结）。
 输出：**中间 markdown**（原始实录 → 修正实录 → 会议总结）+ **两份自包含 HTML 报告**：
 
 - 访谈纪要.html —— 按发言人时间块组织的全文纪要
@@ -36,7 +36,23 @@ python <skill>/scripts/doctor.py
 
 > 约定：下文 `<skill>` 指本 skill 根目录（本文件所在目录）；其余相对路径（`minutes_raw.json`、`会议实录.md` 等）均相对**项目工作目录**——先 `cd` 到项目目录再执行。
 
-## 3. 工作流（9 环节）
+## 3. 工作流（⓪~⑨ 环节）
+
+### ⓪ 输入路由（先判断走哪条线）
+
+| 输入形态 | 入口 | 输出 |
+|---|---|---|
+| 飞书妙记 URL（`*.feishu.cn/minutes/*`） | ① `fetch_feishu.py` | 双产物 |
+| 腾讯会议录制分享（`meeting.tencent.com/cw/*`） | ①′ `fetch_tencent.py`（Phase 2 交付） | 双产物 |
+| 其他转写网页 | agent 浏览器复制正文存 txt → `extract_text.py` 同 A2 通道（Phase 2 交付） | 双产物 |
+| 本地纪要文档（md/txt/word/pdf） | `extract_text.py` + agent 结构化（Phase 2 交付） | 双产物 |
+| 仅本地录音 + 要区分发言人 | `asr_diarize.py` + 对话式标记（Phase 3 交付） | 双产物 |
+| 仅本地录音 + 快速 | ③ `asr.py` → 快速总结线（见 ⑨ 后） | 仅 会议总结.html |
+| 已有规范纪要/总结 md | 直接 ⑧ | 视 md 类型 |
+
+- 纪要来源 + 本地录音同传 → ③④ 交叉校对线（双产物）。
+- 抓取后发现**全员无发言人**（环节 ①~② 会警告）→ 降级快速总结线，完成后提醒用户：补发言人信息才能出访谈纪要.html。
+- 仅录音时先问用户："需要区分发言人出纪要，还是快速出总结？"
 
 ### ① 抓取妙记 → minutes_raw.json
 
@@ -123,6 +139,14 @@ python -m http.server 8000
 ```
 
 浏览器抽查 `http://localhost:8000/访谈纪要.html` 与 `http://localhost:8000/会议总结.html`（章节导航、发言人配色、思维导图、打印预览）。
+
+### 快速总结线（仅录音 · 单产物，跳过 ①②④⑤）
+
+1. `python <skill>/scripts/asr.py <音频/视频文件> --outdir asr_runs/<名称>`（同 ③）。
+2. Agent 读 `transcript.txt`，按 `reference/pipeline.md` §6 快速总结原则直接写 `会议总结.md`（meta 注明"来源：本地录音 faster-whisper 转录（快速模式，未经发言人区分）"）。
+3. ⑦ 思维导图（默认生成；用户明确要求"最快"时省略）→ ⑧ 仅渲染 summary 版式。
+
+产物：`会议总结.md` + `会议总结.html`（无 访谈纪要.html / 会议实录（修正）.md / corrections.json）。
 
 ## 4. 产物结构
 
